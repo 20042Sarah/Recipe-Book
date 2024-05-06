@@ -27,6 +27,16 @@ def show_meal(meal):
     return results
 
 
-#   show recipes that contain an ingredient
+def show_ingredient(food):
+    #   show recipes that contain an ingredient
+    db = sqlite3.connect(DBNAME)
+    cursor = db.cursor()
+    sql = """SELECT * FROM Ingredients WHERE Food = %s;""" % food
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    return results
 
 #   menu
+print(show_recipe(1))
+print(show_meal(5))
+print(show_ingredient(2))
