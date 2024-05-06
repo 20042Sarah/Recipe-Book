@@ -6,10 +6,9 @@ DBNAME = "RecipeBook.db"
 
 #   functions
 
-#   show instructions and ingredients for a recipe
-
 
 def show_recipe(recipe):
+    #   shows instructions and ingredients for a recipe
     db = sqlite3.connect(DBNAME)
     cursor = db.cursor()
     sql = """SELECT * FROM Recipes WHERE RecipeID = %s;""" % recipe
@@ -17,7 +16,17 @@ def show_recipe(recipe):
     results = cursor.fetchall()
     return results
 
-#   show recipes for a meal
+
+def show_meal(meal):
+    #   shows recipes for a meal
+    db = sqlite3.connect(DBNAME)
+    cursor = db.cursor()
+    sql = """SELECT * FROM Recipes WHERE Meal = %s;""" % meal
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    return results
+
+
 #   show recipes that contain an ingredient
 
 #   menu
