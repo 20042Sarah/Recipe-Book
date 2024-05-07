@@ -3,10 +3,22 @@ import sqlite3
 
 #   constants
 DBNAME = "RecipeBook.db"
-INTWIDTH = 5
-STRWIDTH = 10
+COLWIDTH = 10
 
 #   functions
+
+
+def display(results, headings):
+    for column in range(len(headings)):
+        heading = headings[column][0]
+        print(heading, (COLWIDTH - len(heading)) * " ", end=" | ")
+    print()
+    for row in results:
+        for column in range(len(row)):
+            cell = row[column]
+            print(cell, (COLWIDTH - len(str(cell))) * " ",  end=" | ")
+        print()
+
 
 
 def show_all_recipes():
@@ -16,7 +28,9 @@ def show_all_recipes():
     sql = """SELECT * FROM Recipes"""
     cursor.execute(sql)
     results = cursor.fetchall()
-    return results
+    headings = cursor.description
+    db.close()
+    display(results, headings)
 
 
 def show_recipe(recipe):
@@ -26,7 +40,9 @@ def show_recipe(recipe):
     sql = """SELECT * FROM Recipes WHERE RecipeID = %s;""" % recipe
     cursor.execute(sql)
     results = cursor.fetchall()
-    return results
+    headings = cursor.description
+    db.close()
+    display(results, headings)
 
 
 def show_meal(meal):
@@ -36,7 +52,9 @@ def show_meal(meal):
     sql = """SELECT * FROM Recipes WHERE Meal = %s;""" % meal
     cursor.execute(sql)
     results = cursor.fetchall()
-    return results
+    headings = cursor.description
+    db.close()
+    display(results, headings)
 
 
 def show_ingredient(food):
@@ -46,7 +64,9 @@ def show_ingredient(food):
     sql = """SELECT * FROM Ingredients WHERE Food = %s;""" % food
     cursor.execute(sql)
     results = cursor.fetchall()
-    return results
+    headings = cursor.description
+    db.close()
+    display(results, headings)
 
 
 #   menu
