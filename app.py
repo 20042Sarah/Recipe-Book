@@ -37,12 +37,18 @@ def show_recipe(recipe):
     #   shows instructions and ingredients for a recipe
     db = sqlite3.connect(DBNAME)
     cursor = db.cursor()
-    sql = """SELECT * FROM Recipes WHERE RecipeID = %s;""" % recipe
+    sql = """SELECT Recipes.Name FROM Recipes WHERE RecipeID = %s;""" % recipe
     cursor.execute(sql)
     results = cursor.fetchall()
-    headings = cursor.description
+    title = results[0][0]
+    sql = """SELECT * FROM Ingredients WHERE Recipe = %s;""" % recipe
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    ingredients = results
     db.close()
-    display(results, headings)
+    print(title)
+    headings = ["Recipe", "Food", "Quanity"]
+    display(ingredients, headings)
 
 
 def show_meal(meal):
@@ -70,7 +76,7 @@ def show_ingredient(food):
 
 
 #   menu
-print(show_all_recipes())
-#   print(show_recipe(1))
-#   print(show_meal(5))
-#   print(show_ingredient(2))
+#   show_all_recipes()
+show_recipe(1)
+#   show_meal(5)
+#   show_ingredient(2)
