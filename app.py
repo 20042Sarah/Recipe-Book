@@ -10,7 +10,7 @@ COLWIDTH = 10
 
 def display(results, headings):
     for column in range(len(headings)):
-        heading = headings[column]
+        heading = headings[column][0]
         print(heading, (COLWIDTH - len(heading)) * " ", end=" | ")
     print()
     for row in results:
@@ -25,11 +25,12 @@ def show_all_recipes():
     #   shows all recipes
     db = sqlite3.connect(DBNAME)
     cursor = db.cursor()
-    sql = """SELECT Recipes.RecipeID, Recipes.Name, Meals.Name FROM Recipes
-        LEFT JOIN Meals ON Recipes.Meal = Meals.MealID;"""
+    sql = """SELECT Recipes.RecipeID AS ID, Recipes.Name AS Recipe,
+        Meals.Name AS Meal FROM Recipes LEFT JOIN Meals
+        ON Recipes.Meal = Meals.MealID;"""
     cursor.execute(sql)
     results = cursor.fetchall()
-    headings = ["Recipe ID", "Name", "Meal"]
+    headings = cursor.description
     db.close()
     display(results, headings)
 
@@ -42,22 +43,22 @@ def show_recipe(recipe):
     cursor.execute(sql)
     results = cursor.fetchall()
     title = results[0][0]
-    sql = """SELECT Food.Name, Ingredients.Quantity FROM Ingredients
-        LEFT JOIN Food ON Ingredients.Food = Food.FoodID
+    sql = """SELECT Food.Name AS Ingredient, Ingredients.Quantity
+        FROM Ingredients LEFT JOIN Food ON Ingredients.Food = Food.FoodID
         WHERE Recipe = %s;""" % recipe
     cursor.execute(sql)
     ingredients = cursor.fetchall()
+    ingredheadings = cursor.description
     sql = """SELECT Instructions.Step, Instructions.Instruction FROM
         Instructions WHERE Recipe = %s;""" % recipe
     cursor.execute(sql)
     instructions = cursor.fetchall()
+    instrucheadings = cursor.description
     db.close()
     print(title)
     print("")
-    headings = ["Food", "Quantity"]
-    display(ingredients, headings)
-    headings = ["Step", "Instruction"]
-    display(instructions, headings)
+    display(ingredients, ingredheadings)
+    display(instructions, instrucheadings)
 
 
 def show_meal(meal):
@@ -68,13 +69,14 @@ def show_meal(meal):
     cursor.execute(sql)
     results = cursor.fetchall()
     title = results[0][0]
-    sql = """SELECT Recipes.Name FROM Recipes LEFT JOIN Meals
+    sql = """SELECT Recipes.Name AS Recipe FROM Recipes LEFT JOIN Meals
         ON Recipes.Meal = Meals.MealID WHERE Meal = %s;""" % meal
     cursor.execute(sql)
     results = cursor.fetchall()
+    headings = cursor.description
     db.close()
     print(title)
-    headings = ["Recipe"]
+    print("")
     display(results, headings)
 
 
@@ -86,19 +88,19 @@ def show_ingredient(food):
     cursor.execute(sql)
     results = cursor.fetchall()
     title = results[0][0]
-    sql = """SELECT Recipes.Name, Ingredients.Quantity FROM Ingredients
-        LEFT JOIN Recipes ON Ingredients.Recipe = Recipes.RecipeID 
+    sql = """SELECT Recipes.Name AS Recipe, Ingredients.Quantity FROM Ingredients
+        LEFT JOIN Recipes ON Ingredients.Recipe = Recipes.RecipeID
         WHERE Food = %s;""" % food
     cursor.execute(sql)
     results = cursor.fetchall()
-    #   headings = cursor.description
+    headings = cursor.description
     db.close()
     print(title)
-    headings = ["Recipe", "Quantity"]
+    print("")
     display(results, headings)
 
 
-#   show_all_recipes()
-#   show_recipe(1)
-#   show_meal(5)
+show_all_recipes()
+show_recipe(1)
+show_meal(5)
 show_ingredient(2)
