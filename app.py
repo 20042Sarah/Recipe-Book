@@ -74,7 +74,6 @@ def show_meal(meal):
     results = cursor.fetchall()
     db.close()
     print(title)
-    print("")
     headings = ["Recipe"]
     display(results, headings)
 
@@ -83,16 +82,23 @@ def show_ingredient(food):
     #   show recipes that contain an ingredient
     db = sqlite3.connect(DBNAME)
     cursor = db.cursor()
-    sql = """SELECT Recipes.Name FROM Ingredients LEFT JOIN Recipes ON Ingredients.Recipe = Recipes.RecipeID WHERE Food = %s;""" % food
+    sql = """SELECT Food.Name FROM Food WHERE FoodID = %s;""" % food
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    title = results[0][0]
+    sql = """SELECT Recipes.Name, Ingredients.Quantity FROM Ingredients
+        LEFT JOIN Recipes ON Ingredients.Recipe = Recipes.RecipeID 
+        WHERE Food = %s;""" % food
     cursor.execute(sql)
     results = cursor.fetchall()
     #   headings = cursor.description
     db.close()
-    headings = ["Recipe"]
+    print(title)
+    headings = ["Recipe", "Quantity"]
     display(results, headings)
 
 
-show_all_recipes()
-show_recipe(1)
-show_meal(5)
-#   show_ingredient(2)
+#   show_all_recipes()
+#   show_recipe(1)
+#   show_meal(5)
+show_ingredient(2)
