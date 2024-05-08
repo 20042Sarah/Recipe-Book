@@ -64,11 +64,12 @@ def show_meal(meal):
     #   shows recipes for a meal
     db = sqlite3.connect(DBNAME)
     cursor = db.cursor()
-    sql = """SELECT * FROM Recipes WHERE Meal = %s;""" % meal
+    sql = """SELECT Recipes.Name, Meals.Name FROM Recipes LEFT JOIN Meals
+        ON Recipes.Meal = Meals.MealID WHERE Meal = %s;""" % meal
     cursor.execute(sql)
     results = cursor.fetchall()
-    headings = cursor.description
     db.close()
+    headings = ["Recipe", "Meal"]
     display(results, headings)
 
 
@@ -83,7 +84,8 @@ def show_ingredient(food):
     db.close()
     display(results, headings)
 
+
 #   show_all_recipes()
 #   show_recipe(1)
-#   show_meal(5)
+show_meal(5)
 #   show_ingredient(2)
