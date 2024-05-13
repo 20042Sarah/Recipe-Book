@@ -3,8 +3,21 @@
 <head>
     <title>Recipe Book</title>
 </head>
-<body style="background-color:aliceblue;">
-    <h1 style="color:cornflowerblue;">Recipe Book</h1>
-    <p style="color:rgb(0, 50, 100);">Welcome</p>
+<body>
+    <h1>Recipe Book</h1>
+    <table class="w3-table">
+        <tr>
+            <th>ID</th>
+            <th>Recipe</th>
+            <th>Meal</th>
+        </tr>
+        {% for item in results %}
+        <tr>
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
+            <td>{{ item[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
