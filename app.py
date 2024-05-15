@@ -16,8 +16,8 @@ def allrecipes():
     db.close()
     return render_template('home.html', results = results)
 
-@app.route('/recipe/<recipe>')
-    def recipe(name):
+#   @app.route('/recipe/<recipe>')
+    #   def recipe(name):
 
 
 if __name__ == "__main__":
