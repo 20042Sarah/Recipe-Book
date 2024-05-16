@@ -17,9 +17,20 @@ def allrecipes():
     return render_template('home.html', results = results)
 
 
-@app.route('/recipe/<recipe>')
-def displayrecipe(recipe):
-    return render_template('recipe.html', recipe = recipe)
+@app.route('/recipe/<name>')
+def displayrecipe(name):
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    sql = """SELECT * FROM Recipes WHERE Recipes.Name = '%s';""" % name
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    recipe = results[0][0]
+    sql = """SELECT Food.Name AS Ingredient, Ingredients.Quantity
+        FROM Ingredients LEFT JOIN Food ON Ingredients.Food = Food.FoodID
+        WHERE Recipe = %s;""" % recipe
+    cursor.execute(sql)
+    ingredients = cursor.fetchall()
+    return render_template('recipe.html', recipe = name, results = ingredients)
 
 
 if __name__ == "__main__":
