@@ -14,7 +14,7 @@ def allrecipes():
     cursor.execute(sql)
     results = cursor.fetchall()
     db.close()
-    return render_template('home.html', results = results)
+    return render_template('home.html', results=results)
 
 
 @app.route('/recipe/<name>')
@@ -30,7 +30,11 @@ def displayrecipe(name):
         WHERE Recipe = %s;""" % recipe
     cursor.execute(sql)
     ingredients = cursor.fetchall()
-    return render_template('recipe.html', recipe = name, results = ingredients)
+    sql = """SELECT Instructions.Step, Instructions.Instruction FROM
+        Instructions WHERE Recipe = %s;""" % recipe
+    cursor.execute(sql)
+    instructions = cursor.fetchall()
+    return render_template('recipe.html', recipe=name, ingredients=ingredients, instructions=instructions)
 
 
 if __name__ == "__main__":
