@@ -29,12 +29,12 @@ def displayrecipe(name):
         FROM Ingredients LEFT JOIN Food ON Ingredients.Food = Food.FoodID
         WHERE Recipe = %s;""" % recipe
     cursor.execute(sql)
-    ingredients = cursor.fetchall()
+    r1 = cursor.fetchall()
     sql = """SELECT Instructions.Step, Instructions.Instruction FROM
         Instructions WHERE Recipe = %s;""" % recipe
     cursor.execute(sql)
-    instructions = cursor.fetchall()
-    return render_template('recipe.html', recipe=name, ingredients=ingredients, instructions=instructions)
+    r2 = cursor.fetchall()
+    return render_template('recipe.html', recipe=name, ingred=r1, instr=r2)
 
 
 if __name__ == "__main__":

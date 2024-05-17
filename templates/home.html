@@ -7,11 +7,13 @@
             <th>ID</th>
             <th>Recipe</th>
             <th>Meal</th>
+            <th></th>
         </tr>
         {% for item in results %}
         <tr>
             <td>{{ item[0] }}</td>
-            <td>{{ item[1] }}</td>
+            <td><a href="/recipe/{{ item[1] }}">{{ item[1] }}</a></td>
+            <!-- Credit to Charlotte for help with above line-->
             <td>{{ item[2] }}</td>
         </tr>
         {% endfor %}
