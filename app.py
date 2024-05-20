@@ -38,7 +38,7 @@ def displayrecipe(name):
         cursor.execute(sql)
         r2 = cursor.fetchall()
     except IndexError:
-        #   if the recipe name is not in the database and error message is given
+        #   if the recipe name is not in the database an error message is given
         error = 'Page not found. Please check the recipe name.'
         return render_template('error.html', error=error)
     return render_template('recipe.html', recipe=name, ingred=r1, instr=r2)
@@ -48,6 +48,13 @@ def displayrecipe(name):
 @app.errorhandler(404)
 def page_not_found(error):
     error = 'Page not found. Please check that the address is spelt correctly.'
+    return render_template('error.html', error=error)
+
+
+#   internal server error page
+@app.errorhandler(500)
+def internal_server_error(error):
+    error = 'Internal server error.'
     return render_template('error.html', error=error)
 
 
