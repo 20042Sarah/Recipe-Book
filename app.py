@@ -28,9 +28,9 @@ def displayrecipe(name):
         cursor.execute(sql)
         results = cursor.fetchall()
         recipe = results[0][0]
-        sql = """SELECT Food.Name AS Ingredient, Ingredients.Quantity
-            FROM Ingredients LEFT JOIN Food ON Ingredients.Food = Food.FoodID
-            WHERE Recipe = %s;""" % recipe
+        sql = """SELECT Food.Name AS Ingredient, Ingredients.Quantity,
+            Ingredients.Measure FROM Ingredients LEFT JOIN Food
+            ON Ingredients.Food = Food.FoodID WHERE Recipe = %s;""" % recipe
         cursor.execute(sql)
         r1 = cursor.fetchall()
         sql = """SELECT Instructions.Step, Instructions.Instruction FROM
