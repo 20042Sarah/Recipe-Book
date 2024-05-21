@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block body %}
 <title>Recipe Book</title>
-<h1>Recipe Book</h1>
+<div class="w3-container">
+    <h1>Recipe Book</h1>
+    <!-- Displays all recipes in a table -->
     <table class="w3-striped">
         <tr>
             <th>ID</th>
@@ -19,4 +21,5 @@
         </tr>
         {% endfor %}
     </table>
+</div>
 {% endblock %}
