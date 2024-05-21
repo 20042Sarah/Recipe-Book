@@ -10,7 +10,7 @@ def allrecipes():
     db = sqlite3.connect(DB)
     cursor = db.cursor()
     sql = """SELECT Recipes.RecipeID, Recipes.Name,
-        Meals.Name FROM Recipes LEFT JOIN Meals
+        Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
         ON Recipes.Meal = Meals.MealID;"""
     cursor.execute(sql)
     results = cursor.fetchall()
