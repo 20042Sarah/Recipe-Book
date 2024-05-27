@@ -7,14 +7,14 @@
     <div class="home-container">
         <div>
             <!-- search bar and filtering -->
-            <input class="w3-input w3-border w3-padding" type="text" placeholder="Search..." id="search" onkeyup="myFunction()">
+            <input class="w3-input w3-border w3-padding" type="text" placeholder="Search recipe name..." id="search" onkeyup="SearchFunction()">
         </div>
         <div>
             <!-- a little space -->
             <P></P>
         </div>
         <div>
-            <table class="w3-striped">
+            <table class="w3-striped" id="RecipeTable">
                 <tr>
                     <th>ID</th>
                     <th>Recipe</th>
@@ -34,4 +34,25 @@
         </div>
     </div>
 </div>
+<script>
+    <!-- fucntion for search bar -->
+    function SearchFunction() {
+      var input, filter, table, tr, td, i;
+      input = document.getElementById("search");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("RecipeTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    }
+    </script>
 {% endblock %}
