@@ -8,6 +8,18 @@
         <div>
             <!-- search bar and filtering -->
             <input class="w3-input w3-border w3-padding" type="text" placeholder="Search recipe name..." id="search" onkeyup="SearchFunction()">
+            <!-- dropdown menu to filter by menu -->
+            <div class="w3-dropdown-hover">
+              <input class="w3-input w3-padding" type="text" id="MealFilter" onkeyup="MealFunction()">
+              <a class="w3-bar-item w3-button" href="#basic">Basic</a>
+              <a class="w3-bar-item w3-button" href="#dinner">Dinner</a>
+              <a class="w3-bar-item w3-button" href="#dessert">Dessert</a>
+              <a class="w3-bar-item w3-button" href="#fingerfood">Finger Food</a>\
+              <a class="w3-bar-item w3-button" href="#brunch">Brunch</a>
+              <a class="w3-bar-item w3-button" href="#baking">Baking</a>
+              <a class="w3-bar-item w3-button" href="#toppings">Toppings</a>
+              <a class="w3-bar-item w3-button" href="#drinks">Drinks</a>
+            </div>
         </div>
         <div>
             <!-- a little space -->
@@ -35,7 +47,7 @@
     </div>
 </div>
 <script>
-    <!-- fucntion for search bar -->
+    // fucntion for search bar
     function SearchFunction() {
       var input, filter, table, tr, td, i;
       input = document.getElementById("search");
@@ -53,6 +65,13 @@
           }
         }
       }
+    }
+    // function for meal filter dropdown
+    function MealFunction() {
+      var input, fliter, ul, li, a, i;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+
     }
     </script>
 {% endblock %}
