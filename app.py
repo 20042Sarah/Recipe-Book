@@ -18,7 +18,7 @@ def allrecipes():
     return render_template('home.html', results=results)
 
 
-#   filter page
+#   filters by meal
 @app.route('/meal/<filter>')
 def filterrecipes(filter):
     db = sqlite3.connect(DB)
