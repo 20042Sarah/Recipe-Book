@@ -18,6 +18,29 @@ def allrecipes():
     return render_template('home.html', results=results)
 
 
+#   filter page
+@app.route('/meal/<filter>')
+def filterrecipes(filter):
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    try:
+        sql = """SELECT * FROM Meals WHERE Meals.Name = '%s';""" % filter
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        meal = results[0][0]
+        sql = """SELECT Recipes.RecipeID, Recipes.Name,
+        Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
+        ON Recipes.Meal = Meals.MealID WHERE Meal = '%s';""" % meal
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        db.close()
+    except IndexError:
+        #   if the meal is not in the database an error message is given
+        error = 'Page not found. Please check the address.'
+        return render_template('error.html', error=error)
+    return render_template('home.html', results=results)
+
+
 #   recipe page
 @app.route('/recipe/<name>')
 def displayrecipe(name):
