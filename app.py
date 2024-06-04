@@ -20,7 +20,7 @@ def allrecipes():
 
 #   filters by meal
 @app.route('/meal/<filter>')
-def filterrecipes(filter):
+def filtermeal(filter):
     db = sqlite3.connect(DB)
     cursor = db.cursor()
     try:
@@ -36,6 +36,24 @@ def filterrecipes(filter):
         db.close()
     except IndexError:
         #   if the meal is not in the database an error message is given
+        error = 'Page not found. Please check the address.'
+        return render_template('error.html', error=error)
+    return render_template('home.html', results=results)
+
+
+#   filters by difficulty
+@app.route('/diff/<filter>')
+def filterdifficulty(filter):
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    try:
+        sql = """SELECT Recipes.RecipeID, Recipes.Name,
+        Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
+        ON Recipes.Meal = Meals.MealID WHERE Difficulty = '%s';""" % filter
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        db.close()
+    except IndexError:
         error = 'Page not found. Please check the address.'
         return render_template('error.html', error=error)
     return render_template('home.html', results=results)
