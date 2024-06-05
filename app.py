@@ -17,8 +17,12 @@ def allrecipes():
     sql = """SELECT Name from Meals;"""
     cursor.execute(sql)
     meals = cursor.fetchall()
+    cursor = db.cursor()
+    sql = """SELECT Name from Food;"""
+    cursor.execute(sql)
+    f = cursor.fetchall()
     db.close()
-    return render_template('home.html', results=results, meals=meals)
+    return render_template('home.html', results=results, meals=meals, food=f)
 
 
 #   filters by meal
@@ -53,6 +57,29 @@ def filterdifficulty(filter):
         sql = """SELECT Recipes.RecipeID, Recipes.Name,
         Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
         ON Recipes.Meal = Meals.MealID WHERE Difficulty = '%s';""" % filter
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        db.close()
+    except IndexError:
+        error = 'Page not found. Please check the address.'
+        return render_template('error.html', error=error)
+    return render_template('home.html', results=results)
+
+
+#   filters by ingredients
+@app.route('/food/<filter>')
+def filteringredients(filter):
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    try:
+        sql = """SELECT * FROM Food WHERE Food.Name = '%s';""" % filter
+        cursor.execute(sql)
+        results = cursor.fetchall()
+        food = results[0][0]
+        sql = """SELECT Recipes.RecipeID, Recipes.Name,
+        Meals.Name, Recipes.Difficulty FROM Ingredients LEFT JOIN Recipes
+        ON Ingredients.Recipe = Recipes.RecipeID LEFT JOIN Meals
+        ON Recipes.Meal = Meals.MealID WHERE Food = '%s';""" % food
         cursor.execute(sql)
         results = cursor.fetchall()
         db.close()

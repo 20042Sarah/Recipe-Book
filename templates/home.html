@@ -34,6 +34,18 @@
                   <a href="/diff/5" class="w3-bar-item w3-button">5</a>
                 </div> 
               </div>
+              <div>
+                <!-- a little space -->
+                <P></P>
+              </div>
+              <!-- dropdown menu to filter by ingredient -->
+              <button onclick="foodFunction()" class="w3-button w3-white">Filter by Ingredient <i class="fa fa-angle-down"></i></button>
+              <div id="food" class="w3-dropdown-content w3-bar-block w3-border">
+                <a href="/testing" class="w3-bar-item w3-button">All</a>
+                {% for item in food %}
+                <a href="/testing/{{ item[0] }}" class="w3-bar-item w3-button">{{ item[0] }}</a>
+                {% endfor %}
+              </div>
             </div>
         </div>
         <div>
@@ -95,6 +107,15 @@
 
   function diffFunction() {
     var x = document.getElementById("diff");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+
+  function foodFunction() {
+    var x = document.getElementById("food");
     if (x.className.indexOf("w3-show") == -1) {
       x.className += " w3-show";
     } else { 
