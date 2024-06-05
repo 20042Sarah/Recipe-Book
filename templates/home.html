@@ -39,12 +39,15 @@
                 <P></P>
               </div>
               <!-- dropdown menu to filter by ingredient -->
-              <button onclick="foodFunction()" class="w3-button w3-white">Filter by Ingredient <i class="fa fa-angle-down"></i></button>
-              <div id="food" class="w3-dropdown-content w3-bar-block w3-border">
-                <a href="/" class="w3-bar-item w3-button">All</a>
-                {% for item in food %}
-                <a href="/food/{{ item[0] }}" class="w3-bar-item w3-button">{{ item[0] }}</a>
-                {% endfor %}
+              <div class="w3-dropdown-click">
+                <button class="w3-button w3-white" onclick="foodFunction()">Filter by Ingredient <i class="fa fa-angle-down"></i></button>
+                <div id="food" class="w3-dropdown-content w3-bar-block w3-border">
+                  <input class="w3-input w3-padding" type="text" placeholder="Search ingredients..." id="foodinput" onkeyup="foodsearch()">
+                  <a href="/" class="w3-bar-item w3-button">All</a>
+                  {% for item in food %}
+                  <a href="/food/{{ item[0] }}" class="w3-bar-item w3-button">{{ item[0] }}</a>
+                  {% endfor %}
+                </div>
               </div>
             </div>
         </div>
@@ -75,52 +78,68 @@
 </div>
 
 <script>
-  // fucntion for search bar
-  function SearchFunction() {
-    var input, filter, table, tr, td, i;
-    input = document.getElementById("search");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("RecipeTable");
-    tr = table.getElementsByTagName("tr");
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[1];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
+// fucntion for search bar
+function SearchFunction() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("search");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("RecipeTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
       }
     }
   }
+}
 
-  // functions for dropdowns
-  function mealFunction() {
-    var x = document.getElementById("meal");
-    if (x.className.indexOf("w3-show") == -1) {
-      x.className += " w3-show";
-    } else { 
-      x.className = x.className.replace(" w3-show", "");
+// functions for dropdowns
+function mealFunction() {
+  var x = document.getElementById("meal");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+function diffFunction() {
+  var x = document.getElementById("diff");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+function foodFunction() {
+  var x = document.getElementById("food");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+// function for ingredient search
+function foodsearch() {
+  const input = document.getElementById("foodinput");
+  const filter = input.value.toUpperCase();
+  const div = document.getElementById("food");
+  const a = div.getElementsByTagName("a");
+  for (let i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
     }
   }
-
-  function diffFunction() {
-    var x = document.getElementById("diff");
-    if (x.className.indexOf("w3-show") == -1) {
-      x.className += " w3-show";
-    } else { 
-      x.className = x.className.replace(" w3-show", "");
-    }
-  }
-
-  function foodFunction() {
-    var x = document.getElementById("food");
-    if (x.className.indexOf("w3-show") == -1) {
-      x.className += " w3-show";
-    } else { 
-      x.className = x.className.replace(" w3-show", "");
-    }
-  }
+}
 </script>
 {% endblock %}
