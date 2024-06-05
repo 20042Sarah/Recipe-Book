@@ -14,8 +14,11 @@ def allrecipes():
         ON Recipes.Meal = Meals.MealID;"""
     cursor.execute(sql)
     results = cursor.fetchall()
+    sql = """SELECT Name from Meals;"""
+    cursor.execute(sql)
+    meals = cursor.fetchall()
     db.close()
-    return render_template('home.html', results=results)
+    return render_template('home.html', results=results, meals=meals)
 
 
 #   filters by meal
@@ -83,6 +86,17 @@ def displayrecipe(name):
         error = 'Page not found. Please check the recipe name.'
         return render_template('error.html', error=error)
     return render_template('recipe.html', recipe=name, ingred=r1, instr=r2)
+
+
+@app.route('/testing/<name>')
+def testing(name):
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    sql = """SELECT Name from Food;"""
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    db.close()
+    return render_template('testing.html', name=name, food=results)
 
 
 #   page not found error page
