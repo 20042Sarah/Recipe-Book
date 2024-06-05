@@ -38,14 +38,19 @@ def filtermeal(filter):
         sql = """SELECT Recipes.RecipeID, Recipes.Name,
         Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
         ON Recipes.Meal = Meals.MealID WHERE Meal = '%s';""" % meal
-        cursor.execute(sql)
         results = cursor.fetchall()
+        sql = """SELECT Name from Meals;"""
+        cursor.execute(sql)
+        meals = cursor.fetchall()
+        sql = """SELECT Name from Food;"""
+        cursor.execute(sql)
+        f = cursor.fetchall()
         db.close()
     except IndexError:
         #   if the meal is not in the database an error message is given
         error = 'Page not found. Please check the address.'
         return render_template('error.html', error=error)
-    return render_template('home.html', results=results)
+    return render_template('home.html', results=results, meals=meals, food=f)
 
 
 #   filters by difficulty
@@ -59,11 +64,18 @@ def filterdifficulty(filter):
         ON Recipes.Meal = Meals.MealID WHERE Difficulty = '%s';""" % filter
         cursor.execute(sql)
         results = cursor.fetchall()
+        sql = """SELECT Name from Meals;"""
+        cursor.execute(sql)
+        meals = cursor.fetchall()
+        cursor = db.cursor()
+        sql = """SELECT Name from Food;"""
+        cursor.execute(sql)
+        f = cursor.fetchall()
         db.close()
     except IndexError:
         error = 'Page not found. Please check the address.'
         return render_template('error.html', error=error)
-    return render_template('home.html', results=results)
+    return render_template('home.html', results=results, meals=meals, food=f)
 
 
 #   filters by ingredients
@@ -76,17 +88,30 @@ def filteringredients(filter):
         cursor.execute(sql)
         results = cursor.fetchall()
         food = results[0][0]
-        sql = """SELECT Recipes.RecipeID, Recipes.Name,
-        Meals.Name, Recipes.Difficulty FROM Ingredients LEFT JOIN Recipes
-        ON Ingredients.Recipe = Recipes.RecipeID LEFT JOIN Meals
-        ON Recipes.Meal = Meals.MealID WHERE Food = '%s';""" % food
+        sql = """SELECT Ingredients.Recipe FROM Ingredients LEFT JOIN Recipes
+        ON Ingredients.Recipe = Recipes.RecipeID WHERE Food = '%s';""" % food
         cursor.execute(sql)
-        results = cursor.fetchall()
+        recipes = cursor.fetchall()
+        results = []
+        for recipe in recipes:
+            sql = """SELECT Recipes.RecipeID, Recipes.Name,
+            Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
+            ON Recipes.Meal = Meals.MealID WHERE RecipeID = '%s';""" % recipe
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            results += result
+        sql = """SELECT Name from Meals;"""
+        cursor.execute(sql)
+        meals = cursor.fetchall()
+        cursor = db.cursor()
+        sql = """SELECT Name from Food;"""
+        cursor.execute(sql)
+        f = cursor.fetchall()
         db.close()
     except IndexError:
         error = 'Page not found. Please check the address.'
         return render_template('error.html', error=error)
-    return render_template('home.html', results=results)
+    return render_template('home.html', results=results, meals=meals, food=f)
 
 
 #   recipe page
@@ -113,17 +138,6 @@ def displayrecipe(name):
         error = 'Page not found. Please check the recipe name.'
         return render_template('error.html', error=error)
     return render_template('recipe.html', recipe=name, ingred=r1, instr=r2)
-
-
-@app.route('/testing/<name>')
-def testing(name):
-    db = sqlite3.connect(DB)
-    cursor = db.cursor()
-    sql = """SELECT Name from Food;"""
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    db.close()
-    return render_template('testing.html', name=name, food=results)
 
 
 #   page not found error page

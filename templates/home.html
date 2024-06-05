@@ -41,9 +41,9 @@
               <!-- dropdown menu to filter by ingredient -->
               <button onclick="foodFunction()" class="w3-button w3-white">Filter by Ingredient <i class="fa fa-angle-down"></i></button>
               <div id="food" class="w3-dropdown-content w3-bar-block w3-border">
-                <a href="/testing" class="w3-bar-item w3-button">All</a>
+                <a href="/" class="w3-bar-item w3-button">All</a>
                 {% for item in food %}
-                <a href="/testing/{{ item[0] }}" class="w3-bar-item w3-button">{{ item[0] }}</a>
+                <a href="/food/{{ item[0] }}" class="w3-bar-item w3-button">{{ item[0] }}</a>
                 {% endfor %}
               </div>
             </div>
