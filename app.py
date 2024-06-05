@@ -38,6 +38,7 @@ def filtermeal(filter):
         sql = """SELECT Recipes.RecipeID, Recipes.Name,
         Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
         ON Recipes.Meal = Meals.MealID WHERE Meal = '%s';""" % meal
+        cursor.execute(sql)
         results = cursor.fetchall()
         sql = """SELECT Name from Meals;"""
         cursor.execute(sql)
