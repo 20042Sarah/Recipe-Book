@@ -3,38 +3,47 @@
 <title>{{ recipe }}</title>
 <div class="w3-container">
     <h1>{{ recipe }}</h1>
-    <h2>Ingredients</h2>
-    <!-- Displays ingredients for recipe -->
-    <table class="w3-striped w3-white">
-        <tr>
-            <th>Ingredient</th>
-            <th>Quantity</th>
-            <th>Measure</th>
-        </tr>
-        {% for item in ingred %}
-        <tr>
-            <td>{{ item[0] }}</td>
-            <td>{{ item[1] }}</td>
-            <td>{{ item[2] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <h2>Instructions</h2>
-    <!-- Displays instructions for recipe -->
-    <table class="w3-striped w3-theme-l5">
-        <tr>
-            <th>Step</th>
-            <th>Instruction</th>
-        </tr>
-        {% for item in instr %}
-        <tr>
-            <td>{{ item[0] }}</td>
-            <td>{{ item[1] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <p></p>
-    <!-- back button -->
-    <button class="w3-btn w3-white w3-large"><a href="/"><i class="fa fa-arrow-left"></i></a></button>
+    <div class="recipe-container">
+        <div>
+            <h2>Ingredients</h2>
+        <!-- Displays ingredients for recipe -->
+        <table class="w3-striped w3-white">
+            <tr>
+                <th>Ingredient</th>
+                <th>Quantity</th>
+                <th>Measure</th>
+            </tr>
+            {% for item in ingred %}
+            <tr>
+                <td>{{ item[0] }}</td>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <h2>Instructions</h2>
+        <!-- Displays instructions for recipe -->
+        <table class="w3-striped w3-theme-l5">
+            <tr>
+                <th>Step</th>
+                <th>Instruction</th>
+            </tr>
+            {% for item in instr %}
+            <tr>
+                <td>{{ item[0] }}</td>
+                <td>{{ item[1] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <p></p>
+        <!-- back button -->
+        <button class="w3-btn w3-white w3-large"><a href="/"><i class="fa fa-arrow-left"></i></a></button>
+        </div>
+        <div class="w3-container">
+            <div class="w3-card" style="width:75%">
+                <img src="/static/images/{{ recipe }}.jpg" class="w3-border" style="padding:4px;width:100%">
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
