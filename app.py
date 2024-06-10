@@ -11,14 +11,14 @@ def allrecipes():
     cursor = db.cursor()
     sql = """SELECT Recipes.RecipeID, Recipes.Name,
         Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
-        ON Recipes.Meal = Meals.MealID;"""
+        ON Recipes.Meal = Meals.MealID ORDER BY Recipes.Name;"""
     cursor.execute(sql)
     results = cursor.fetchall()
     sql = """SELECT Name from Meals;"""
     cursor.execute(sql)
     meals = cursor.fetchall()
     cursor = db.cursor()
-    sql = """SELECT Name from Food;"""
+    sql = """SELECT Name from Food ORDER BY Food.Name;"""
     cursor.execute(sql)
     f = cursor.fetchall()
     db.close()
@@ -37,13 +37,13 @@ def filtermeal(filter):
         meal = results[0][0]
         sql = """SELECT Recipes.RecipeID, Recipes.Name,
         Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
-        ON Recipes.Meal = Meals.MealID WHERE Meal = '%s';""" % meal
+        ON Recipes.Meal = Meals.MealID WHERE Meal = '%s' BY Recipes.Name;""" % meal
         cursor.execute(sql)
         results = cursor.fetchall()
         sql = """SELECT Name from Meals;"""
         cursor.execute(sql)
         meals = cursor.fetchall()
-        sql = """SELECT Name from Food;"""
+        sql = """SELECT Name from Food BY Food.Name;"""
         cursor.execute(sql)
         f = cursor.fetchall()
         db.close()
