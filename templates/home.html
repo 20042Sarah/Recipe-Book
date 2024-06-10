@@ -56,23 +56,20 @@
             <P></P>
         </div>
         <div>
-            <table class="w3-table-all" id="RecipeTable">
-                <tr>
-                    <th>ID</th>
-                    <th>Recipe</th>
-                    <th>Meal</th>
-                    <th>Difficulty</th>
-                </tr>
-                {% for item in results %}
-                <tr>
-                    <td>{{ item[0] }}</td>
-                    <td><a href="/recipe/{{ item[1] }}">{{ item[1] }}</a></td>
-                    <!-- Credit to Charlotte for help with above line-->
-                    <td>{{ item[2] }}</td>
-                    <td>{{ item[3] }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+          <div class="w3-row-padding">
+            {% for item in results %}
+            <div class="w3-third">
+              <div class="w3-card">
+                <img src="/static/images/{{ item[1] }}.jpg" width="100%" height="400" style="object-fit: cover">
+                <div class="w3-container">
+                  <h4><a href="/recipe/{{ item[1] }}">{{ item[1] }}</a></h4>
+                  <!-- Credit to Charlotte for help with above line-->
+                  <p>Difficulty: {{ item[3] }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          </div>
         </div>
     </div>
 </div>
