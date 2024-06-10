@@ -61,12 +61,13 @@
             <div class="w3-third">
               <div class="w3-card">
                 <img src="/static/images/{{ item[1] }}.jpg" width="100%" height="400" style="object-fit: cover">
-                <div class="w3-container" id="card">
+                <div class="w3-container">
                   <h4><a href="/recipe/{{ item[1] }}">{{ item[1] }}</a></h4>
                   <!-- Credit to Charlotte for help with above line-->
                   <p>Difficulty: {{ item[3] }}</p>
                 </div>
               </div>
+              <p></p>
             </div>
           {% endfor %}
           </div>
@@ -76,42 +77,21 @@
 
 <script>
 // fucntion for search bar
-// function SearchFunction() 
-{
-  var input, filter, div, tr, td, i;
+function SearchFunction() {
+  var input, filter, cards, cardContainer, title, i;
   input = document.getElementById("search");
   filter = input.value.toUpperCase();
-  div = document.getElementById("RecipeDiv");
-  tr = div.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
+  cardContainer = document.getElementById("RecipeDiv");
+  cards = cardContainer.getElementsByClassName("w3-card");
+  for (i = 0; i < cards.length; i++) {
+    title = cards[i].querySelector(".w3-container");
+    if (title.innerText.toUpperCase().indexOf(filter) > -1) {
+      cards[i].style.display = "";
+    } else {
+      cards[i].style.display = "none";
     }
   }
 }
-
-
-
-function foodsearch() {
-  const input = document.getElementById("foodinput");
-  const filter = input.value.toUpperCase();
-  const div = document.getElementById("food");
-  const a = div.getElementsByTagName("a");
-  for (let i = 0; i < a.length; i++) {
-    txtValue = a[i].textContent || a[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      a[i].style.display = "";
-    } else {
-      a[i].style.display = "none";
-    }
-  }
-
 // functions for dropdowns
 function mealFunction() {
   var x = document.getElementById("meal");
