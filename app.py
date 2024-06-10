@@ -62,14 +62,14 @@ def filterdifficulty(filter):
     try:
         sql = """SELECT Recipes.RecipeID, Recipes.Name,
         Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
-        ON Recipes.Meal = Meals.MealID WHERE Difficulty = '%s';""" % filter
+        ON Recipes.Meal = Meals.MealID WHERE Difficulty = '%s' ORDER BY Recipes.Name;""" % filter
         cursor.execute(sql)
         results = cursor.fetchall()
         sql = """SELECT Name from Meals;"""
         cursor.execute(sql)
         meals = cursor.fetchall()
         cursor = db.cursor()
-        sql = """SELECT Name from Food;"""
+        sql = """SELECT Name from Food ORDER BY Food.Name;"""
         cursor.execute(sql)
         f = cursor.fetchall()
         db.close()
@@ -85,7 +85,7 @@ def filteringredients(filter):
     db = sqlite3.connect(DB)
     cursor = db.cursor()
     try:
-        sql = """SELECT * FROM Food WHERE Food.Name = '%s';""" % filter
+        sql = """SELECT * FROM Food WHERE Food.Name = '%s' ORDER BY Food.Name;""" % filter
         cursor.execute(sql)
         results = cursor.fetchall()
         food = results[0][0]
@@ -105,7 +105,7 @@ def filteringredients(filter):
         cursor.execute(sql)
         meals = cursor.fetchall()
         cursor = db.cursor()
-        sql = """SELECT Name from Food;"""
+        sql = """SELECT Name from Food ORDER BY Food.Name;"""
         cursor.execute(sql)
         f = cursor.fetchall()
         db.close()
