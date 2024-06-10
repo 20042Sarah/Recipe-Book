@@ -56,12 +56,12 @@
             <P></P>
         </div>
         <div>
-          <div class="w3-row-padding">
+          <div class="w3-row-padding" id="RecipeDiv">
             {% for item in results %}
             <div class="w3-third">
               <div class="w3-card">
                 <img src="/static/images/{{ item[1] }}.jpg" width="100%" height="400" style="object-fit: cover">
-                <div class="w3-container">
+                <div class="w3-container" id="card">
                   <h4><a href="/recipe/{{ item[1] }}">{{ item[1] }}</a></h4>
                   <!-- Credit to Charlotte for help with above line-->
                   <p>Difficulty: {{ item[3] }}</p>
@@ -76,12 +76,13 @@
 
 <script>
 // fucntion for search bar
-function SearchFunction() {
-  var input, filter, table, tr, td, i;
+// function SearchFunction() 
+{
+  var input, filter, div, tr, td, i;
   input = document.getElementById("search");
   filter = input.value.toUpperCase();
-  table = document.getElementById("RecipeTable");
-  tr = table.getElementsByTagName("tr");
+  div = document.getElementById("RecipeDiv");
+  tr = div.getElementsByTagName("tr");
   for (i = 0; i < tr.length; i++) {
     td = tr[i].getElementsByTagName("td")[1];
     if (td) {
@@ -94,6 +95,22 @@ function SearchFunction() {
     }
   }
 }
+
+
+
+function foodsearch() {
+  const input = document.getElementById("foodinput");
+  const filter = input.value.toUpperCase();
+  const div = document.getElementById("food");
+  const a = div.getElementsByTagName("a");
+  for (let i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
 
 // functions for dropdowns
 function mealFunction() {
