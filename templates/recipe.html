@@ -5,25 +5,16 @@
     <h1>{{ recipe }}</h1>
     <div class="recipe-container">
         <div>
-            <h2>Ingredients</h2>
+        <h2>Ingredients</h2>
         <!-- Displays ingredients for recipe -->
-        <table class="w3-striped w3-white">
-            <tr>
-                <th>Ingredient</th>
-                <th>Quantity</th>
-                <th>Measure</th>
-            </tr>
+        <div class="w3-red">
             {% for item in ingred %}
-            <tr>
-                <td>{{ item[0] }}</td>
-                <td>{{ item[1] }}</td>
-                <td>{{ item[2] }}</td>
-            </tr>
+            <p> {{ item[0] }} {{ item[1] }} {{ item[2] }} </p>
             {% endfor %}
-        </table>
+        </div>
         <h2>Instructions</h2>
         <!-- Displays instructions for recipe -->
-        <table class="w3-striped w3-theme-l5">
+        <table class="w3-striped w3-white">
             <tr>
                 <th>Step</th>
                 <th>Instruction</th>
