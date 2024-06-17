@@ -14,18 +14,12 @@
         </div>
         <h2>Instructions</h2>
         <!-- Displays instructions for recipe -->
-        <table class="w3-striped w3-theme-l4">
-            <tr>
-                <th>Step</th>
-                <th>Instruction</th>
-            </tr>
+        <div class="w3-theme-l4 instr-container">
             {% for item in instr %}
-            <tr>
-                <td>{{ item[0] }}</td>
-                <td>{{ item[1] }}</td>
-            </tr>
+            <div class="w3-container"><p>{{ item[0] }}</p></div>
+            <div class="w3-container"><p>{{ item[1] }}</p></div>
             {% endfor %}
-        </table>
+        </div>
         <p></p>
         <!-- back button -->
         <a href="/"><button class="w3-btn w3-theme-l4"><i class="fa fa-angle-left"></i></button></a>
