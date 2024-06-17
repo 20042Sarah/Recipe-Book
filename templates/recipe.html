@@ -7,9 +7,9 @@
         <div>
         <h2>Ingredients</h2>
         <!-- Displays ingredients for recipe -->
-        <div class="w3-theme-l4">
+        <div class="w3-container w3-theme-l4">
             {% for item in ingred %}
-            <p> {{ item[0] }} {{ item[1] }} {{ item[2] }} </p>
+            <p>{{ item[1] }} {{ item[2] }} {{ item[0] }}</p>
             {% endfor %}
         </div>
         <h2>Instructions</h2>

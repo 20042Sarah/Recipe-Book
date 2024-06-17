@@ -129,14 +129,21 @@ def displayrecipe(name):
         results = cursor.fetchall()
         recipe = results[0][0]
         sql = """SELECT Food.Name AS Ingredient, Ingredients.Quantity,
-            Ingredients.Measure FROM Ingredients LEFT JOIN Food
-            ON Ingredients.Food = Food.FoodID WHERE Recipe = %s;""" % recipe
+        Ingredients.Measure FROM Ingredients LEFT JOIN Food
+        ON Ingredients.Food = Food.FoodID WHERE Recipe = %s;""" % recipe
         cursor.execute(sql)
-        r1 = cursor.fetchall()
+        results = cursor.fetchall()
+        r1 = []
+        for i in results:
+            if i[2] is None:
+                r1.append((i[0], i[1], ""))
+            else:
+                r1.append(i)
         sql = """SELECT Instructions.Step, Instructions.Instruction FROM
             Instructions WHERE Recipe = %s;""" % recipe
         cursor.execute(sql)
         r2 = cursor.fetchall()
+        db.close()
     except IndexError:
         #   if the recipe name is not in the database an error message is given
         error = 'Page not found. Please check the recipe name.'

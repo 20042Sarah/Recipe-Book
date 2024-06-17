@@ -100,7 +100,30 @@ def show_ingredient(food):
     display(results, headings)
 
 
-show_all_recipes()
-show_recipe(1)
-show_meal(5)
-show_ingredient(2)
+def displayrecipe(name):
+    db = sqlite3.connect(DBNAME)
+    cursor = db.cursor()
+    sql = """SELECT * FROM Recipes WHERE Recipes.Name = '%s';""" % name
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    recipe = results[0][0]
+    sql = """SELECT Food.Name AS Ingredient, Ingredients.Quantity,
+        Ingredients.Measure FROM Ingredients LEFT JOIN Food
+        ON Ingredients.Food = Food.FoodID WHERE Recipe = %s;""" % recipe
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    r1 = []
+    for i in results:
+        if i[2] is None:
+            r1.append((i[0], i[1], ""))
+        else:
+            r1.append(i)
+    sql = """SELECT Instructions.Step, Instructions.Instruction FROM
+        Instructions WHERE Recipe = %s;""" % recipe
+    cursor.execute(sql)
+    #   r2 = cursor.fetchall()
+    db.close()
+    return r1
+
+
+print(displayrecipe(input()))
