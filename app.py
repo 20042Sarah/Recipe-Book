@@ -135,10 +135,22 @@ def displayrecipe(name):
         results = cursor.fetchall()
         r1 = []
         for i in results:
-            if i[2] is None:
-                r1.append((i[0], i[1], ""))
-            else:
-                r1.append(i)
+            try:
+                if int(i[1]) == i[1]:
+                    if i[2] is None:
+                        r1.append((i[0], int(i[1]), ""))
+                    else:
+                        r1.append((i[0], int(i[1]), i[2]))
+                else:
+                    if i[2] is None:
+                        r1.append((i[0], i[1], ""))
+                    else:
+                        r1.append(i)
+            except ValueError:
+                if i[2] is None:
+                    r1.append((i[0], i[1], ""))
+                else:
+                    r1.append(i)
         sql = """SELECT Instructions.Step, Instructions.Instruction FROM
             Instructions WHERE Recipe = %s;""" % recipe
         cursor.execute(sql)
