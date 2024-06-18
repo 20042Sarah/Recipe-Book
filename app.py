@@ -87,17 +87,20 @@ def filteringredients(filter):
     db = sqlite3.connect(DB)
     cursor = db.cursor()
     try:
+        #   gets food id
         sql = """SELECT * FROM Food WHERE Food.Name = '%s'
         ORDER BY Food.Name;""" % filter
         cursor.execute(sql)
         results = cursor.fetchall()
         food = results[0][0]
+        #   gets recipe id for recipes that conatin that ingredient
         sql = """SELECT Ingredients.Recipe FROM Ingredients LEFT JOIN Recipes
         ON Ingredients.Recipe = Recipes.RecipeID WHERE Food = '%s';""" % food
         cursor.execute(sql)
         recipes = cursor.fetchall()
         results = []
         for recipe in recipes:
+            #   gets recipe data
             sql = """SELECT Recipes.RecipeID, Recipes.Name,
             Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
             ON Recipes.Meal = Meals.MealID WHERE RecipeID = '%s';""" % recipe
@@ -124,6 +127,7 @@ def displayrecipe(name):
     db = sqlite3.connect(DB)
     cursor = db.cursor()
     try:
+        #   gets ingredient data
         sql = """SELECT * FROM Recipes WHERE Recipes.Name = '%s';""" % name
         cursor.execute(sql)
         results = cursor.fetchall()
@@ -133,6 +137,7 @@ def displayrecipe(name):
         ON Ingredients.Food = Food.FoodID WHERE Recipe = %s;""" % recipe
         cursor.execute(sql)
         results = cursor.fetchall()
+        #   formats the ingredient data better for displaying
         r1 = []
         for i in results:
             try:
@@ -151,6 +156,7 @@ def displayrecipe(name):
                     r1.append((i[0], i[1], ""))
                 else:
                     r1.append(i)
+        #   gets instruction data
         sql = """SELECT Instructions.Step, Instructions.Instruction FROM
             Instructions WHERE Recipe = %s;""" % recipe
         cursor.execute(sql)
