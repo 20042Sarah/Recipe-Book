@@ -20,14 +20,19 @@
             <div class="w3-container"><p>{{ item[1] }}</p></div>
             {% endfor %}
         </div>
-        <p></p>
-        <!-- back button -->
-        <a href="/"><button class="w3-btn w3-theme-l4"><i class="fa fa-angle-left"></i></button></a>
+            <p></p>
+            <!-- back button -->
+            <a href="/"><button class="w3-btn w3-theme-l4"><i class="fa fa-angle-left"></i></button></a>
         </div>
-        <div class="w3-container">
-            <div class="w3-card w3-theme-l4" style="width:75%">
-                <img src="/static/images/{{ recipe }}.jpg" class="w3-border" style="padding:4px;width:100%">
+        <div class="image-container">
+            <div></div>
+            <div>
+                <div class="w3-card w3-theme-l4">
+                    <img src="/static/images/{{ recipe }}.jpg" class="w3-padding" width="100%" style="object-fit: contain; padding:4px">
+                </div>
+                <div></div>
             </div>
+            <div></div>
         </div>
     </div>
 </div>
