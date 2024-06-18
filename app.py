@@ -163,6 +163,12 @@ def displayrecipe(name):
     return render_template('recipe.html', recipe=name, ingred=r1, instr=r2)
 
 
+#   admin page
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+
+
 #   page not found error page
 @app.errorhandler(404)
 def page_not_found(error):

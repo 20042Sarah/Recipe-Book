@@ -3,7 +3,11 @@
 <title>Penny's Recipe Book</title>
 <div class="w3-container">
     <h1><b class="w3-text-white">Penny's Recipe Book</b></h1>
-    <!-- Displays all recipes in a table -->
+    <div class="w3-display-topright w3-padding">
+      <!-- admin button -->
+      <a href="/admin"><button class="w3-btn w3-theme-l4">admin</button></a>
+    </div>
+    <!-- Displays all recipes in a grid -->
     <div class="home-container">
         <div>
             <!-- search bar and filtering -->
@@ -35,7 +39,6 @@
                 </div> 
               </div>
               <div>
-                <!-- a little space -->
                 <P></P>
               </div>
               <!-- dropdown menu to filter by ingredient -->
@@ -51,6 +54,7 @@
               </div>
             </div>
         </div>
+        <!-- recipes displayed in a grid-->
         <div class="grid-recipe" id="RecipeDiv">
           {% for item in results %}
           <div class="w3-padding"> 
