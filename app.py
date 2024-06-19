@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 import sqlite3
 app = Flask(__name__)
 DB = "RecipeBook.db"
@@ -158,7 +158,7 @@ def displayrecipe(name):
                     r1.append(i)
         #   gets instruction data
         sql = """SELECT Instructions.Step, Instructions.Instruction FROM
-            Instructions WHERE Recipe = %s;""" % recipe
+        Instructions WHERE Recipe = %s;""" % recipe
         cursor.execute(sql)
         r2 = cursor.fetchall()
         db.close()
@@ -173,6 +173,20 @@ def displayrecipe(name):
 @app.route('/admin')
 def admin():
     return render_template('admin.html')
+
+
+#   adds recipe to Recipes table
+@app.post('/add_recipe')
+def add_recipe():
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    name = request.form['Rname']
+    meal = request.form['Rmeal']
+    diff = request.form['Rdiff']
+    sql = """INSERT INTO Recipes (Name, Meal, Difficulty)
+    VALUES ('%s', '%s', '%s');""" % (name, meal, diff)
+    cursor.execute(sql)
+    return redirect('/')
 
 
 #   page not found error page

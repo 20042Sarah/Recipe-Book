@@ -2,6 +2,33 @@
 {% block body %}
 <title>Recipe Admin</title>
 <div class="w3-container">
-    <p>admin page</p>
+    <h1><b class="w3-text-white">Admin</b></h1>
+    <div class="recipe-container">
+        <div>
+            <h2 class="w3-text white">Add a Recipe</h2>
+            <!-- form to add data to Recipes table -->
+            <form action="/add_recipe" method="post">
+                <label for="Rname">Name: </label><br>
+                <input type="text" name="Rname"><br>
+                <label for="Rmeal">Meal: </label><br>
+                <input type="text" name="Rmeal"><br>
+                <label for="Rdiff">Difficulty: </label><br>
+                <input type="radio" name="Rdiff" value="1">
+                <label for="1">1</label>
+                <input type="radio" name="Rdiff" value="2">
+                <label for="2">2</label>
+                <input type="radio" name="Rdiff" value="3">
+                <label for="3">3</label>
+                <input type="radio" name="Rdiff" value="4">
+                <label for="4">4</label>
+                <input type="radio" name="Rdiff" value="5">
+                <label for="5">5</label><br> 
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div>
+            <h2 class="w3-text white">Add an Ingredient</h2>
+        </div>
+    </div>
 </div>
 {% endblock %}
