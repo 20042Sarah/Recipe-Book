@@ -172,7 +172,12 @@ def displayrecipe(name):
 #   admin page
 @app.route('/admin')
 def admin():
-    return render_template('admin.html')
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    sql = """SELECT * from Meals;"""
+    cursor.execute(sql)
+    meals = cursor.fetchall()
+    return render_template('admin.html', meals=meals)
 
 
 #   adds recipe to Recipes table

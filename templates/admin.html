@@ -8,10 +8,15 @@
             <h2 class="w3-text white">Add a Recipe</h2>
             <!-- form to add data to Recipes table -->
             <form action="/add_recipe" method="post">
-                <label for="Rname">Name: </label><br>
+                <!-- adds Recipe to Recipes table-->
+                <label for="Rname">Name: </label>
                 <input type="text" name="Rname"><br>
-                <label for="Rmeal">Meal: </label><br>
-                <input type="text" name="Rmeal"><br>
+                <label for="Rmeal">Meal: </label>
+                <select name="Rmeal">
+                    <option value="1">Dinner</option>
+                    <option value="2">Brunch</option>
+                    <option value="3">Dessert</option>
+                </select><br>
                 <label for="Rdiff">Difficulty: </label><br>
                 <input type="radio" name="Rdiff" value="1">
                 <label for="1">1</label>
@@ -23,7 +28,7 @@
                 <label for="4">4</label>
                 <input type="radio" name="Rdiff" value="5">
                 <label for="5">5</label><br>
-                <input type="submit" value="Submit"> 
+                <input type="submit" value="Submit">
             </form>
         </div>
         <div>
