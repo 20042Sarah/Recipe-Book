@@ -183,9 +183,10 @@ def add_recipe():
     name = request.form['Rname']
     meal = request.form['Rmeal']
     diff = request.form['Rdiff']
-    sql = """INSERT INTO Recipes (Name, Meal, Difficulty)
-    VALUES ('%s', '%s', '%s');""" % (name, meal, diff)
+    sql = f"""INSERT INTO Recipes (Name, Meal, Difficulty)
+    VALUES ('{name}', '{meal}', '{diff}');"""
     cursor.execute(sql)
+    db.commit()
     return redirect('/')
 
 
