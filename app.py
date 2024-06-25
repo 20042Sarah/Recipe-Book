@@ -156,6 +156,11 @@ def displayrecipe(name):
                     r1.append((i[0], i[1], ""))
                 else:
                     r1.append(i)
+            except TypeError:
+                if i[2] is None:
+                    r1.append((i[0], i[1], ""))
+                else:
+                    r1.append(i)
         #   gets instruction data
         sql = """SELECT Instructions.Step, Instructions.Instruction FROM
         Instructions WHERE Recipe = %s;""" % recipe
@@ -177,14 +182,19 @@ def admin():
     sql = """SELECT * from Meals;"""
     cursor.execute(sql)
     meals = cursor.fetchall()
-    return render_template('admin.html', meals=meals)
+    sql = """SELECT * from Food ORDER BY Food.Name;"""
+    cursor.execute(sql)
+    food = cursor.fetchall()
+    db.close()
+    return render_template('admin.html', meals=meals, food=food)
 
 
-#   adds recipe to Recipes table
+# adds recipe to Recipes table
 @app.post('/add_recipe')
 def add_recipe():
     db = sqlite3.connect(DB)
     cursor = db.cursor()
+    # adds Recipe to Recipes table
     name = request.form['Rname']
     meal = request.form['Rmeal']
     diff = request.form['Rdiff']
@@ -192,6 +202,19 @@ def add_recipe():
     VALUES ('{name}', '{meal}', '{diff}');"""
     cursor.execute(sql)
     db.commit()
+    # gets Reciped ID for new recipe
+    sql = """SELECT * FROM Recipes WHERE Recipes.Name = '%s';""" % name
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    id = results[0][0]
+    # adds ingredient for recipe to Ingredients table
+    # food = request.form['Rfood']
+    # quan = request.form['Rquan']
+    # meas = request.form['Rmeas']
+    sql = f"""INSERT INTO Ingredients (Recipe) VALUES ('{id}');"""
+    cursor.execute(sql)
+    db.commit()
+    db.close()
     return redirect('/')
 
 

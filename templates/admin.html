@@ -4,34 +4,56 @@
 <div class="w3-container">
     <h1><b class="w3-text-white">Admin</b></h1>
     <div class="recipe-container">
-        <div>
+        <div class="w3-card-4 w3-theme-l3 w3-padding">
             <h2 class="w3-text white">Add a Recipe</h2>
             <!-- form to add data to Recipes table -->
             <form action="/add_recipe" method="post">
                 <!-- adds Recipe to Recipes table-->
                 <label for="Rname">Name: </label>
-                <input type="text" name="Rname"><br>
+                <input class="w3-input w3-border w3-animate-input" type="text" style="width:30%" name="Rname"><br>
                 <label for="Rmeal">Meal: </label>
-                <select name="Rmeal">
+                <select class="w3-select" style="width:30%" name="Rmeal">
                     {% for item in meals %}
                     <option value='{{ item[0] }}'>{{ item[1] }}</option>
                     {% endfor %}
                 </select><br>
+                <p></p>
                 <label for="Rdiff">Difficulty: </label><br>
-                <input type="radio" name="Rdiff" value="1">
+                    <input class="w3-radio" type="radio" name="Rdiff" value="1">
                     <label for="1">1</label>
-                    <input type="radio" name="Rdiff" value="2">
+                    <input class="w3-radio" type="radio" name="Rdiff" value="2">
                     <label for="2">2</label>
-                    <input type="radio" name="Rdiff" value="3">
+                    <input class="w3-radio" type="radio" name="Rdiff" value="3">
                     <label for="3">3</label>
-                    <input type="radio" name="Rdiff" value="4">
+                    <input class="w3-radio" type="radio" name="Rdiff" value="4">
                     <label for="4">4</label>
-                    <input type="radio" name="Rdiff" value="5">
+                    <input class="w3-radio" type="radio" name="Rdiff" value="5">
                     <label for="5">5</label><br>
-                    <input type="submit" value="Submit">
+                <p></p>
+                <h4>Ingredients</h4>
+                <div class="w3-third">
+                    <label for="Rfood">Ingredient: </label>
+                    <select class="w3-select" style="width:90%" name="Rfood">
+                        {% for item in food %}
+                        <option value='{{ item[0] }}'>{{ item[1] }}</option>
+                        {% endfor %}
+                    </select><br>
+                </div>
+                <div class="w3-third">
+                    <label for="Rquan">Quantity: </label>
+                    <input class="w3-input w3-border" type="text" style="width:90%" name="Rquan"><br>
+                </div>
+                <div class="w3-third">
+                    <label for="Rmeas">Messure: </label>
+                    <input class="w3-input w3-border" type="text" style="width:90%" name="Rmeas"><br>
+                </div>
+                <p></p>
+                <input type="submit" value="Submit">
+                <p></p>
             </form>
         </div>
-        <div>
+        <div></div>
+        <div class="w3-card-4 w3-theme-l3 w3-padding">
             <h2 class="w3-text white">Add an Ingredient</h2>
         </div>
     </div>
