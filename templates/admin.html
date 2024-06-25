@@ -13,22 +13,22 @@
                 <input type="text" name="Rname"><br>
                 <label for="Rmeal">Meal: </label>
                 <select name="Rmeal">
-                    <option value="1">Dinner</option>
-                    <option value="2">Brunch</option>
-                    <option value="3">Dessert</option>
+                    {% for item in meals %}
+                    <option value='{{ item[0] }}'>{{ item[1] }}</option>
+                    {% endfor %}
                 </select><br>
                 <label for="Rdiff">Difficulty: </label><br>
                 <input type="radio" name="Rdiff" value="1">
-                <label for="1">1</label>
-                <input type="radio" name="Rdiff" value="2">
-                <label for="2">2</label>
-                <input type="radio" name="Rdiff" value="3">
-                <label for="3">3</label>
-                <input type="radio" name="Rdiff" value="4">
-                <label for="4">4</label>
-                <input type="radio" name="Rdiff" value="5">
-                <label for="5">5</label><br>
-                <input type="submit" value="Submit">
+                    <label for="1">1</label>
+                    <input type="radio" name="Rdiff" value="2">
+                    <label for="2">2</label>
+                    <input type="radio" name="Rdiff" value="3">
+                    <label for="3">3</label>
+                    <input type="radio" name="Rdiff" value="4">
+                    <label for="4">4</label>
+                    <input type="radio" name="Rdiff" value="5">
+                    <label for="5">5</label><br>
+                    <input type="submit" value="Submit">
             </form>
         </div>
         <div>
