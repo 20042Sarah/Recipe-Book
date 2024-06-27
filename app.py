@@ -208,10 +208,10 @@ def add_recipe():
     results = cursor.fetchall()
     id = results[0][0]
     # adds ingredient for recipe to Ingredients table
-    # food = request.form['Rfood']
-    # quan = request.form['Rquan']
-    # meas = request.form['Rmeas']
-    sql = f"""INSERT INTO Ingredients (Recipe) VALUES ('{id}');"""
+    food = request.form['Rfood']
+    quan = request.form['Rquan']
+    meas = request.form['Rmeas']
+    sql = f"""INSERT INTO Ingredients (Recipe, Food, Quantity, Measure) VALUES ('{id}', '{food}', '{quan}', '{meas}');"""
     cursor.execute(sql)
     db.commit()
     db.close()
