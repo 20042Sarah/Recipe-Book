@@ -211,7 +211,8 @@ def add_recipe():
     food = request.form['Rfood']
     quan = request.form['Rquan']
     meas = request.form['Rmeas']
-    sql = f"""INSERT INTO Ingredients (Recipe, Food, Quantity, Measure) VALUES ('{id}', '{food}', '{quan}', '{meas}');"""
+    sql = f"""INSERT INTO Ingredients (Recipe, Food, Quantity, Measure)
+    VALUES ('{id}', '{food}', '{quan}', '{meas}');"""
     cursor.execute(sql)
     db.commit()
     db.close()
