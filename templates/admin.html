@@ -30,34 +30,20 @@
                     <input class="w3-radio" type="radio" name="Rdiff" value="5">
                     <label for="5">5</label><br>
                 <p></p>
-                <h4>Ingredients</h4>
-                <!--<form>
-                    <label for="inum">Number of Ingredients:</label>
-                    <input class="w3-input w3-border" type="number" style="width:40%" name="inum" min="1" max="20"><br>
-                    <input type="submit" value="Next">
-                </form>
-                {% for item in inum %} -->
-                <div class="w3-third">
-                    <label for="Rfood">Ingredient: </label>
-                    <select class="w3-select" style="width:90%" name="Rfood">
-                        {% for item in food %}
-                        <option value='{{ item[0] }}'>{{ item[1] }}</option>
-                        {% endfor %}
-                    </select><br>
-                </div>
-                <div class="w3-third">
-                    <label for="Rquan">Quantity: </label>
-                    <input class="w3-input w3-border" type="text" style="width:90%" name="Rquan"><br>
-                </div>
-                <div class="w3-third">
-                    <label for="Rmeas">Messure: </label>
-                    <input class="w3-input w3-border" type="text" style="width:90%" name="Rmeas"><br>
-                </div>
-                <p></p>
-                {% endfor %}
-                </form>
                 <input type="submit" value="Submit">
-                <p></p>
+            </form>
+            <p></p>
+            <h4>Add Ingredients to a Recipe</h4>
+            <form action="/ingredient_next" method="post">
+                <label for="recipe">Recipe: </label>
+                <select class="w3-select" style="width:30%" name="recipe">
+                    {% for item in recipes %}
+                    <option value='{{ item[0] }}'>{{ item[1] }}</option>
+                    {% endfor %}
+                </select><br>
+                <label for="inum">Number of Ingredients:</label>
+                <input class="w3-input w3-border" type="number" style="width:40%" name="inum" min="1" max="20"><br>
+                <input type="submit" value="Next">
             </form>
         </div>
         <div></div>

@@ -185,8 +185,11 @@ def admin():
     sql = """SELECT * from Food ORDER BY Food.Name;"""
     cursor.execute(sql)
     food = cursor.fetchall()
+    sql = """SELECT * from Recipes ORDER BY Recipes.Name;"""
+    cursor.execute(sql)
+    recipes = cursor.fetchall()
     db.close()
-    return render_template('admin.html', meals=meals, food=food)
+    return render_template('admin.html', meals=meals, food=food, recipes=recipes)
 
 
 # adds recipe to Recipes table
@@ -194,7 +197,6 @@ def admin():
 def add_recipe():
     db = sqlite3.connect(DB)
     cursor = db.cursor()
-    # adds Recipe to Recipes table
     name = request.form['Rname']
     meal = request.form['Rmeal']
     diff = request.form['Rdiff']
@@ -202,21 +204,16 @@ def add_recipe():
     VALUES ('{name}', '{meal}', '{diff}');"""
     cursor.execute(sql)
     db.commit()
-    # gets Reciped ID for new recipe
-    sql = """SELECT * FROM Recipes WHERE Recipes.Name = '%s';""" % name
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    id = results[0][0]
-    # adds ingredient for recipe to Ingredients table
-    food = request.form['Rfood']
-    quan = request.form['Rquan']
-    meas = request.form['Rmeas']
-    sql = f"""INSERT INTO Ingredients (Recipe, Food, Quantity, Measure)
-    VALUES ('{id}', '{food}', '{quan}', '{meas}');"""
-    cursor.execute(sql)
-    db.commit()
     db.close()
     return redirect('/')
+
+
+# page to add data to Ingredients table
+@app.post('/ingredient_next')
+def ingredient_next():
+    recipe = request.form['recipe']
+    inum = request.form['inum']
+    return render_template('next.html', recipe=recipe, inum=inum)
 
 
 #   page not found error page
