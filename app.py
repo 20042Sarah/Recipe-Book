@@ -213,7 +213,10 @@ def add_recipe():
 def ingredient_next():
     recipe = request.form['recipe']
     inum = request.form['inum']
-    return render_template('next.html', recipe=recipe, inum=inum)
+    nums = []
+    for i in range(int(inum)):
+        nums.append(i+1)
+    return render_template('next.html', recipe=recipe, nums = nums)
 
 
 #   page not found error page

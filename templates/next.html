@@ -5,7 +5,11 @@
     <h1><b class="w3-text-white">Admin</b></h1>
     <div class="w3-card-4 w3-theme-l3 w3-padding">
         <h2 class="w3-text white">Add Ingredients</h2>
-        <p>ingredient form goes here</p>
+        <form action="/add_ingredients" method="post">
+            {% for item in nums %}
+            <h3>Ingredient {{ item }}:</h3>
+            {% endfor %}
+        </form>
     </div>
 </div>
 {% endblock %}
