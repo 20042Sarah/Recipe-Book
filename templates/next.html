@@ -6,9 +6,30 @@
     <div class="w3-card-4 w3-theme-l3 w3-padding">
         <h2 class="w3-text white">Add Ingredients</h2>
         <form action="/add_ingredients" method="post">
+            <label for="recipe">Recipe: </label>
+            <select class="w3-select" style="width:30%" name="recipe" value="{{ recipe }}">
+                {% for item in recipes %}
+                <option value='{{ item[0] }}'>{{ item[1] }}</option>
+                {% endfor %}
+            </select><br>
+            <label for="inum">Number of Ingredients:</label>
+            <input class="w3-input w3-border" type="number" style="width:40%" name="inum" min="1" max="20" value="{{ inum }}"><br>
             {% for item in nums %}
-            <h3>Ingredient {{ item }}:</h3>
+                <h4>Ingredient {{ item }}:</h4>
+                <div class="grid-third">
+                <div><label for="food">Ingredient: </label>
+                <select class="w3-select" style="width:90%" name="food">
+                    {% for item in food %}
+                    <option value='{{ item[0] }}'>{{ item[1] }}</option>
+                    {% endfor %}
+                </select><br></div>
+                <div><label for="quan">Quantity: </label>
+                <input class="w3-input w3-border" type="text" style="width:90%" name="quan"><br></div>
+                <div><label for="meas">Measure: </label>
+                <input class="w3-input w3-border" type="text" style="width:90%" name="meas"><br></div>
+                </div>
             {% endfor %}
+            <input type="submit" value="Submit">
         </form>
     </div>
 </div>

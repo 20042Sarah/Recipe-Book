@@ -211,12 +211,40 @@ def add_recipe():
 # page to add data to Ingredients table
 @app.post('/ingredient_next')
 def ingredient_next():
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    sql = """SELECT * from Food ORDER BY Food.Name;"""
+    cursor.execute(sql)
+    food = cursor.fetchall()
+    sql = """SELECT * from Recipes ORDER BY Recipes.Name;"""
+    cursor.execute(sql)
+    recipes = cursor.fetchall()
+    db.close()
     recipe = request.form['recipe']
     inum = request.form['inum']
     nums = []
     for i in range(int(inum)):
         nums.append(i+1)
-    return render_template('next.html', recipe=recipe, nums = nums)
+    return render_template('next.html', recipe=recipe, nums=nums, inum=inum, food=food, recipes=recipes)
+
+
+# adds data to Ingredients table
+@app.post('/add_ingredient')
+def add_ingredient():
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    inum = inum
+    recipe = recipe
+    for i in range(inum):
+        food = request.form['food']
+        quantity = request.form['quan']
+        measure = request.form['meas']
+        sql = f"""INSERT INTO Ingredients (Recipe, Food, Quantity, Measure)
+        VALUES ('{recipe}', '{food}' '{quantity}', '{measure}');"""
+        cursor.execute(sql)
+        db.commit()
+    db.close()
+    return redirect('/')
 
 
 #   page not found error page
