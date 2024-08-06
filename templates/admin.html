@@ -10,9 +10,9 @@
             <form action="/add_recipe" method="post">
                 <!-- adds Recipe to Recipes table-->
                 <label for="Rname">Name: </label>
-                <input class="w3-input w3-border w3-animate-input" type="text" style="width:30%" name="Rname"><br>
+                <input class="w3-input w3-border w3-animate-input" type="text" style="width:50%" name="Rname"><br>
                 <label for="Rmeal">Meal: </label>
-                <select class="w3-select" style="width:30%" name="Rmeal">
+                <select class="w3-select" style="width:45%" name="Rmeal">
                     {% for item in meals %}
                     <option value='{{ item[0] }}'>{{ item[1] }}</option>
                     {% endfor %}
@@ -30,19 +30,20 @@
                     <input class="w3-radio" type="radio" name="Rdiff" value="5">
                     <label for="5">5</label><br>
                 <p></p>
-                <input type="submit" value="Submit">
+                <input type="submit" value="Submit" onclick="msg()">
             </form>
             <p></p>
             <h2>Add Ingredients</h2>
             <!-- form that collects the recipe and number of ingredients being added before directing to the ingredients adding page-->
             <form action="/ingredient_next" method="post">
                 <label for="recipe">Recipe: </label>
-                <select class="w3-select" style="width:30%" name="recipe">
+                <select class="w3-select" style="width:45%" name="recipe">
                     {% for item in recipes %}
                     <option value='{{ item[0] }}'>{{ item[1] }}</option>
                     {% endfor %}
                 </select><br>
-                <label for="inum">Number of Ingredients:</label>
+                <p></p>
+                <label for="food">Number of Ingredients: </label>
                 <input class="w3-input w3-border" type="number" style="width:40%" name="inum" min="1" max="20"><br>
                 <input type="submit" value="Next">
             </form>
@@ -53,4 +54,9 @@
         </div>
     </div>
 </div>
+<script>
+    function msg() {
+      alert("Sumbitted. Go home to view.");
+    }
+</script>
 {% endblock %}

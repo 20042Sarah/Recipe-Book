@@ -20,9 +20,9 @@ def allrecipes():
     cursor = db.cursor()
     sql = """SELECT Name from Food ORDER BY Food.Name;"""
     cursor.execute(sql)
-    f = cursor.fetchall()
+    food = cursor.fetchall()
     db.close()
-    return render_template('home.html', results=results, meals=meals, food=f)
+    return render_template('home.html', results=results, meals=meals, food=food)
 
 
 #   filters by meal
@@ -205,7 +205,7 @@ def add_recipe():
     cursor.execute(sql)
     db.commit()
     db.close()
-    return redirect('/')
+    return redirect('/admin')
 
 
 # page to add data to Ingredients table
@@ -233,18 +233,17 @@ def ingredient_next():
 def add_ingredient():
     db = sqlite3.connect(DB)
     cursor = db.cursor()
-    inum = inum
-    recipe = recipe
-    for i in range(inum):
-        food = request.form['food']
-        quantity = request.form['quan']
-        measure = request.form['meas']
-        sql = f"""INSERT INTO Ingredients (Recipe, Food, Quantity, Measure)
-        VALUES ('{recipe}', '{food}' '{quantity}', '{measure}');"""
-        cursor.execute(sql)
-        db.commit()
+    recipe = request.form['recipe']
+    num = request.form['num']
+    food = request.form['food']
+    quantity = request.form['quan']
+    measure = request.form['meas']
+    sql = f"""INSERT INTO Ingredients (Recipe, Food, Quantity, Measure)
+    VALUES ('{recipe}', '{food}', '{quantity}', '{measure}');"""
+    cursor.execute(sql)
+    db.commit()
     db.close()
-    return redirect('/')
+    return redirect('/admin')
 
 
 #   page not found error page
