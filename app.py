@@ -238,6 +238,21 @@ def create_ingredient():
     return redirect('/admin')
 
 
+# adds data to Instructions table
+@app.post('/add_step')
+def add_step():
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    recipe = request.form['recipe']
+    step = request.form['step']
+    instruction = request.form['instruction']
+    sql = f"""INSERT INTO Instructions (Recipe, Step, Instruction) VALUES ('{recipe}', '{step}', '{instruction}');"""
+    cursor.execute(sql)
+    db.commit()
+    db.close()
+    return redirect('/admin')
+
+
 #   page not found error page
 @app.errorhandler(404)
 def page_not_found(error):
