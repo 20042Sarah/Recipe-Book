@@ -66,12 +66,18 @@
         <div></div>
         <div class="w3-card-4 w3-theme-l3 w3-padding">
             <h2 class="w3-text white">Create Ingredient</h2>
+            <!-- form to add a new ingreident to the food table -->
+            <form action="/create_ingredient" method="post">
+                <label for="name">Ingredient name: </label>
+                <input class="w3-input w3-border w3-animate-input" type="text" style="width:60%" name="name"><br>
+                <input type="submit" value="Submit" onclick="msg()">
+            </form>
         </div>
     </div>
     <!-- home button -->
     <div>
         <p></p>
-        <a href="/"><button class="w3-btn w3-theme-l4"><i class="fa fa-home"></i></button></a>
+        <a href="/"><button class="w3-btn w3-white"><i class="fa fa-home"></i></button></a>
     </div>
 </div>
 <script>

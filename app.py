@@ -225,6 +225,19 @@ def add_ingredient():
     return redirect('/admin')
 
 
+# adds data to Food table
+@app.post('/create_ingredient')
+def create_ingredient():
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    name = request.form['name']
+    sql = f"""INSERT INTO Food (Name) VALUES ('{name}');"""
+    cursor.execute(sql)
+    db.commit()
+    db.close()
+    return redirect('/admin')
+
+
 #   page not found error page
 @app.errorhandler(404)
 def page_not_found(error):
