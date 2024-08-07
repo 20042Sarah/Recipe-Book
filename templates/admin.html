@@ -6,13 +6,12 @@
     <div class="recipe-container">
         <div class="w3-card-4 w3-theme-l3 w3-padding">
             <h2 class="w3-text white">Create Recipe</h2>
-            <!-- form to add data to Recipes table -->
-            <form action="/add_recipe" method="post">
-                <!-- adds Recipe to Recipes table-->
+            <!-- form to add a recipe to Recipes table -->
+            <form action="/create_recipe" method="post">
                 <label for="Rname">Name: </label>
-                <input class="w3-input w3-border w3-animate-input" type="text" style="width:50%" name="Rname"><br>
-                <label for="Rmeal">Meal: </label>
-                <select class="w3-select" style="width:45%" name="Rmeal">
+                <input class="w3-input w3-border w3-animate-input" type="text" style="width:60%" name="Rname"><br>
+                <label for="Rmeal">Meal: </label><br>
+                <select class="w3-select" style="width:60%" name="Rmeal">
                     {% for item in meals %}
                     <option value='{{ item[0] }}'>{{ item[1] }}</option>
                     {% endfor %}
@@ -33,30 +32,51 @@
                 <input type="submit" value="Submit" onclick="msg()">
             </form>
             <p></p>
-            <h2>Add Ingredients</h2>
-            <!-- form that collects the recipe and number of ingredients being added before directing to the ingredients adding page-->
-            <form action="/ingredient_next" method="post">
-                <label for="recipe">Recipe: </label>
-                <select class="w3-select" style="width:45%" name="recipe">
+        </div>
+        <div></div>
+        <div class="w3-card-4 w3-theme-l3 w3-padding">
+            <h2>Add Ingredient</h2>
+            <!-- form that adds an ingredient to a recipe in the Ingredients Table -->
+            <form action="/add_ingredient" method="post">
+                <label for="recipe">Recipe: </label><br>
+                <select class="w3-select" style="width:90%" name="recipe">
                     {% for item in recipes %}
                     <option value='{{ item[0] }}'>{{ item[1] }}</option>
                     {% endfor %}
                 </select><br>
                 <p></p>
-                <label for="food">Number of Ingredients: </label>
-                <input class="w3-input w3-border" type="number" style="width:40%" name="inum" min="1" max="20"><br>
-                <input type="submit" value="Next">
+                <label for="food">Ingredient: </label>
+                <select class="w3-select" style="width:90%" name="food">
+                    {% for item in food %}
+                    <option value='{{ item[0] }}'>{{ item[1] }}</option>
+                    {% endfor %}
+                </select><br>
+                <p></p>
+                <label for="quan">Quantity: </label>
+                <input class="w3-input w3-border" type="text" style="width:90%" name="quan"><br>
+                <label for="meas">Measure: </label>
+                <input class="w3-input w3-border" type="text" style="width:90%" name="meas"><br>
+                <input type="submit" value="Submit" onclick="msg()">
             </form>
         </div>
+        <div>
+            <p></p>
+        </div>
+        <div></div>
         <div></div>
         <div class="w3-card-4 w3-theme-l3 w3-padding">
             <h2 class="w3-text white">Create Ingredient</h2>
         </div>
     </div>
+    <!-- home button -->
+    <div>
+        <p></p>
+        <a href="/"><button class="w3-btn w3-theme-l4"><i class="fa fa-home"></i></button></a>
+    </div>
 </div>
 <script>
     function msg() {
-      alert("Sumbitted. Go home to view.");
+      alert("Sumbitted. Go home to view changes.");
     }
 </script>
 {% endblock %}

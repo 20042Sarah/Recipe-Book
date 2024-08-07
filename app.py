@@ -193,7 +193,7 @@ def admin():
 
 
 # adds recipe to Recipes table
-@app.post('/add_recipe')
+@app.post('/create_recipe')
 def add_recipe():
     db = sqlite3.connect(DB)
     cursor = db.cursor()
@@ -208,33 +208,12 @@ def add_recipe():
     return redirect('/admin')
 
 
-# page to add data to Ingredients table
-@app.post('/ingredient_next')
-def ingredient_next():
-    db = sqlite3.connect(DB)
-    cursor = db.cursor()
-    sql = """SELECT * from Food ORDER BY Food.Name;"""
-    cursor.execute(sql)
-    food = cursor.fetchall()
-    sql = """SELECT * from Recipes ORDER BY Recipes.Name;"""
-    cursor.execute(sql)
-    recipes = cursor.fetchall()
-    db.close()
-    recipe = request.form['recipe']
-    inum = request.form['inum']
-    nums = []
-    for i in range(int(inum)):
-        nums.append(i+1)
-    return render_template('next.html', recipe=recipe, nums=nums, inum=inum, food=food, recipes=recipes)
-
-
 # adds data to Ingredients table
 @app.post('/add_ingredient')
 def add_ingredient():
     db = sqlite3.connect(DB)
     cursor = db.cursor()
     recipe = request.form['recipe']
-    num = request.form['num']
     food = request.form['food']
     quantity = request.form['quan']
     measure = request.form['meas']
