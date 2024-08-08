@@ -1,7 +1,71 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session, url_for
 import sqlite3
+from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 DB = "RecipeBook.db"
+
+#   functions
+def add_user(table, add_name, add_password):
+    with sqlite3.connect(DB) as connection:
+        cursor = connection.cursor()
+        # adds username and password to the database
+        sql = f"""INSERT INTO {table} (username, password) VALUES (?,?);"""
+        cursor.execute(sql, (add_name, add_password))
+        connection.commit
+
+
+def search(username, password):
+    # checks if username and password exist in the database
+    with sqlite3.connect(DB) as connection:
+        cursor = connection.cursor()
+        sql = """SELECT * FROM Users WHERE username = ?;"""
+        cursor.excute(sql, username)
+        user = cursor.fetchone()
+        # check if password was entered correctly
+        if user:
+            storedpassword = user[2]
+            if check_password_hash(str(storedpassword), str(password)): #str(password) == str(storedpassword):
+                print("Correct password.")
+                return True, user[0]
+            else:
+                print(username, storedpassword)
+                print("Incorrect password")
+                return False, None
+        # if user doesn't exist
+        else:
+            print("User does not exist.")
+            return False, None
+
+
+@app.route("/index/<int:user_id>")
+def get_userID(userID):
+    # fetch user ID
+    if "userID" in session and session["userID"] == userID:
+        with sqlite3.connect(DB) as connection:
+            cursor = connection.cursor()
+            cursor.execute("SELECT * FROM Users WHERE userID = ?;", (userID))
+            user = cursor.fetchall
+        return render_template("index.html", user=user)
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route("/loginpage")
+def loginpage():
+    return render_template("login.html")
+
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    # logs user in
+    # gets data from form
+    if request.method == "POST":
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
 
 
 #   home page
