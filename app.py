@@ -61,6 +61,48 @@ def login():
     if request.method == "POST":
         username = request.form.get('username')
         password = request.form.get('password')
+        # checks if username and password is in the database
+        user_authentication, sqlID = search(username, password)
+        search(username, password)
+        if user_authentication:
+            session['userID'] = sqlID
+            print("User authenticated in login function")
+            return redirect(url_for("get_userID", userID=sqlID))
+        # if username and password don't match database
+        else:
+            error_message = "Username or password incorret. Please try again."
+            return render_template("login.html", error_message=error_message)
+    else:
+        # user logged in
+        if "userID" in session:
+            return redirect(url_for(get_userID, userID=session["userID"]))
+        return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    # logs user out
+    session.pop("userID", None)
+    # returns to log in page
+    return redirect(url_for("login"))
+
+
+@app.route("/add_user")
+def add_user_route():
+    # page to add user to database
+    # get data from form
+    username = request.args.get('username')
+    password = request.args.get('password')
+    confirm_password = request.args.get("confirm")
+    with sqlite3.connect(DB) as connection:
+        cursor = connection.cursor()
+        sql = "SELECT * FROM Users WHERE username = ?"
+        cursor.execute(sql, (username))
+        user = cursor.fetchone()
+        # check if username is already taken
+        if user and username == user[1]:
+            error_message = "Username already taken. Please use another name."
+            
 
 
 @app.route("/signup")
