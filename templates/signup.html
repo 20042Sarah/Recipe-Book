@@ -1,7 +1,26 @@
 {% extends "base.html" %}
 {% block body %}
 <title>Sign Up</title>
+<br>
 <div class="w3-container">
-    <p>Coming soon...</p>
+    <div class="w3-panel w3-round-xlarge w3-theme-l3 w3-cell w3-card-4">
+        <div class="w3-panel">
+            <!-- sign up form -->
+            <h1 class="heading-padding">Sign Up</h1>
+            <form action="/add_user">
+                <label for="username">Username: </label>
+                <input type="text" name="username" maxlength="25" class="w3-input" required><br>
+                <label for="password">Password: </label>
+                <input type="password" name="password" class="w3-input" required><br>
+                <label for="confirm">Comfirm Password: </label>
+                <input type="password" name="confirm" class="w3-input" required><br>
+                {% if error_message %}
+                <div class="colour5"> {{ error_message }} </div><br>
+                {% endif %}
+                <button type="submit" class="w3-input-button w3-round-xlarge">Sumbit</button>
+                <p>Already have an account? <a href = '/login'>Login here!</a><p></p>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

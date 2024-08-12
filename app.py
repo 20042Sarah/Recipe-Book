@@ -19,7 +19,7 @@ def search(username, password):
     with sqlite3.connect(DB) as connection:
         cursor = connection.cursor()
         sql = """SELECT * FROM Users WHERE username = ?;"""
-        cursor.excute(sql, username)
+        cursor.execute(sql, (username,))
         user = cursor.fetchone()
         # check if password was entered correctly
         if user:
@@ -37,13 +37,14 @@ def search(username, password):
             return False, None
 
 
-@app.route("/index/<int:user_id>")
+@app.route("/index/<int:userID>")
 def get_userID(userID):
     # fetch user ID
     if "userID" in session and session["userID"] == userID:
         with sqlite3.connect(DB) as connection:
             cursor = connection.cursor()
-            cursor.execute("SELECT * FROM Users WHERE userID = ?;", (userID))
+            sql = """SELECT * FROM Users WHERE userID = ?;"""
+            cursor.execute(sql, (userID,))
             user = cursor.fetchall
         return render_template("index.html", user=user)
     else:
@@ -96,13 +97,28 @@ def add_user_route():
     confirm_password = request.args.get("confirm")
     with sqlite3.connect(DB) as connection:
         cursor = connection.cursor()
-        sql = "SELECT * FROM Users WHERE username = ?"
-        cursor.execute(sql, (username))
+        sql = "SELECT * FROM Users WHERE username = ?;"
+        cursor.execute(sql, (username,))
         user = cursor.fetchone()
         # check if username is already taken
         if user and username == user[1]:
             error_message = "Username already taken. Please use another name."
-            
+            return render_template("/signup.html", error_message=error_message)
+        # check if passwords match
+        if password == confirm_password:
+            hashed = generate_password_hash(password)
+            sql = """INSERT INTO Users (username, password) VALUES (?,?);"""
+            cursor.execute(sql, (username, hashed))
+            connection.commit
+            return render_template("/login.html")
+        else:
+            return redirect(url_for("signup_password_error"))
+
+
+@app.route("/signup_password_error")
+def signup_password_error():
+    error_message = "Passwords do not match."
+    return render_template("/signup.html", error_message=error_message)
 
 
 @app.route("/signup")
@@ -374,4 +390,5 @@ def internal_server_error(error):
 
 
 if __name__ == "__main__":
+    app.secret_key = 'super secret key'
     app.run(debug=True)
