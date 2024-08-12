@@ -37,7 +37,7 @@ def search(username, password):
             return False, None
 
 
-@app.route("/index/<int:userID>")
+@app.route("/user/<int:userID>")
 def get_userID(userID):
     # fetch user ID
     if "userID" in session and session["userID"] == userID:
@@ -46,7 +46,7 @@ def get_userID(userID):
             sql = """SELECT * FROM Users WHERE userID = ?;"""
             cursor.execute(sql, (userID,))
             user = cursor.fetchall
-        return render_template("index.html", user=user)
+        return render_template("userpage.html", user=user)
     else:
         return redirect(url_for("login"))
 
