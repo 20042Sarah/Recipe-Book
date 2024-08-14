@@ -37,20 +37,6 @@ def search(username, password):
             return False, None
 
 
-@app.route("/user/<int:userID>")
-def get_userID(userID):
-    # fetch user ID
-    if "userID" in session and session["userID"] == userID:
-        with sqlite3.connect(DB) as connection:
-            cursor = connection.cursor()
-            sql = """SELECT * FROM Users WHERE userID = ?;"""
-            cursor.execute(sql, (userID,))
-            user = cursor.fetchall
-        return render_template("userpage.html", user=user)
-    else:
-        return redirect(url_for("login"))
-
-
 @app.route("/loginpage")
 def loginpage():
     return render_template("login.html")
@@ -80,12 +66,9 @@ def login():
         return render_template("login.html")
 
 
-@app.route("/logout")
-def logout():
-    # logs user out
-    session.pop("userID", None)
-    # returns to log in page
-    return redirect(url_for("login"))
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
 
 
 @app.route("/add_user")
@@ -121,9 +104,26 @@ def signup_password_error():
     return render_template("/signup.html", error_message=error_message)
 
 
-@app.route("/signup")
-def signup():
-    return render_template("signup.html")
+@app.route("/user/<int:userID>")
+def get_userID(userID):
+    # fetch user ID
+    if "userID" in session and session["userID"] == userID:
+        with sqlite3.connect(DB) as connection:
+            cursor = connection.cursor()
+            sql = """SELECT * FROM Users WHERE userID = ?;"""
+            cursor.execute(sql, (userID,))
+            user = cursor.fetchall()
+        return render_template("userpage.html", user=user)
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route("/logout")
+def logout():
+    # logs user out
+    session.pop("userID", None)
+    # returns to log in page
+    return redirect(url_for("login"))
 
 
 #   home page
