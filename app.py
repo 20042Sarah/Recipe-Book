@@ -137,9 +137,6 @@ def logout():
 def allrecipes():
     db = sqlite3.connect(DB)
     cursor = db.cursor()
-    # check if user is signed in
-    # if 'userID' in session:
-        # userID = session['userID']
     sql = """SELECT Recipes.RecipeID, Recipes.Name,
         Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
         ON Recipes.Meal = Meals.MealID ORDER BY Recipes.Name;"""
@@ -153,7 +150,12 @@ def allrecipes():
     cursor.execute(sql)
     food = cursor.fetchall()
     db.close()
-    return render_template('home.html', results=results, meals=meals, food=food)
+    # check if user is signed in
+    if 'userID' in session:
+        userID = session['userID']
+        return render_template('home.html', results=results, meals=meals, food=food, userID=userID)
+    else:
+        return render_template('home.html', results=results, meals=meals, food=food)
 
 
 #   filters by meal
