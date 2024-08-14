@@ -2,8 +2,10 @@
 {% block body %}
 <title>Penny's Recipe Book</title>
 <div class="w3-container">
-    { % for item in user % }
-    <h3 class="heading-padding">Welcome {{ item }}!</h3>
-    <a href="/logout" class="w3-button" style="margin-bottom: 32px;">Logout</a>
+    {% for item in user %}
+    <h3 class="heading-padding">Welcome {{ item[1] }}!</h3>
+    {% endfor %}
+    <a href="/logout"><button class="w3-btn w3-theme-l4">Log Out</button></a>
+    <a href="/"><button class="w3-btn w3-theme-l4"><i class="fa fa-home"></i></button></a>
 </div>
 {% endblock %}
