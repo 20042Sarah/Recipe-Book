@@ -24,7 +24,7 @@ def search(username, password):
         # check if password was entered correctly
         if user:
             storedpassword = user[2]
-            if check_password_hash(str(storedpassword), str(password)): #str(password) == str(storedpassword):
+            if check_password_hash(str(storedpassword), str(password)):
                 print("Correct password.")
                 return True, user[0]
             else:
@@ -113,7 +113,13 @@ def get_userID(userID):
             sql = """SELECT * FROM Users WHERE userID = ?;"""
             cursor.execute(sql, (userID,))
             user = cursor.fetchall()
-        return render_template("userpage.html", user=user)
+            # get favourites data
+            sql = f"""SELECT Recipes.RecipeID, Recipes.Name, Meals.Name, Recipes.Difficulty
+            FROM Recipes LEFT JOIN Meals ON Recipes.Meal = Meals. MealID LEFT JOIN Favourites
+            ON Recipes.RecipeID = Favourites.recipe WHERE user = '{userID}';"""
+            cursor.execute(sql)
+            favourites = cursor.fetchall()
+        return render_template("userpage.html", user=user, favourites = favourites)
     else:
         return redirect(url_for("login"))
 
@@ -131,6 +137,9 @@ def logout():
 def allrecipes():
     db = sqlite3.connect(DB)
     cursor = db.cursor()
+    # check if user is signed in
+    # if 'userID' in session:
+        # userID = session['userID']
     sql = """SELECT Recipes.RecipeID, Recipes.Name,
         Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
         ON Recipes.Meal = Meals.MealID ORDER BY Recipes.Name;"""
