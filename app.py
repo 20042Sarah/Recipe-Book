@@ -119,7 +119,10 @@ def get_userID(userID):
             ON Recipes.RecipeID = Favourites.recipe WHERE user = '{userID}';"""
             cursor.execute(sql)
             favourites = cursor.fetchall()
-        return render_template("userpage.html", user=user, favourites = favourites)
+        if userID == 1:
+            return redirect(url_for("admin"))
+        else:
+            return render_template("userpage.html", user=user, favourites = favourites)
     else:
         return redirect(url_for("login"))
 
