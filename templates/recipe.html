@@ -4,9 +4,9 @@
 <div class="w3-container">
     {% if userID %}
         {% if fav %}
-            <h1>{{ recipe }} <button class="w3-button w3-circle w3-xlarge w3-white"><i class="fa fa-heart w3-large"></i></button></h1>
+            <h1>{{ recipe }} <a href="/unlike/{{ recipe }}"><button class="w3-button w3-circle w3-xlarge w3-white"><i class="fa fa-heart w3-large"></i></button></h1></a>
         {% else %}
-            <h1>{{ recipe }} <button class="w3-button w3-circle w3-xlarge w3-white"><i class="fa fa-heart-o w3-large"></i></button></h1>
+            <h1>{{ recipe }} <a href="/like/{{ recipe }}"><button class="w3-button w3-circle w3-xlarge w3-white"><i class="fa fa-heart-o w3-large"></i></button></h1></a>
         {% endif %}
     {% else %}
         <h1>{{ recipe }}</h1>

@@ -310,7 +310,7 @@ def displayrecipe(name):
     if 'userID' in session:
         userID = session['userID']
         # check if recipe is a favourite
-        sql = f"""SELECT * FROM Favourites WHERE user = {userID} AND recipe = {recipe}"""
+        sql = f"""SELECT * FROM Favourites WHERE user = {userID} AND recipe = {recipe};"""
         cursor.execute(sql)
         favourites = cursor.fetchall()
         db.close()
@@ -322,6 +322,38 @@ def displayrecipe(name):
     else:
         db.close()
         return render_template('recipe.html', recipe=name, ingred=r1, instr=r2)
+
+
+# adding a recipe to favourites
+@app.route('/like/<recipe>')
+def like(recipe):
+    userID = session['userID']
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    sql = """SELECT RecipeID FROM Recipes WHERE Name = '%s';""" % recipe
+    cursor.execute(sql)
+    recipeID = cursor.fetchall()[0][0]
+    sql = f"""INSERT INTO Favourites (user, recipe) VALUES ('{userID}', '{recipeID}');"""
+    cursor.execute(sql)
+    db.commit()
+    db.close()
+    return redirect(f'/recipe/{recipe}')
+
+
+# removing a recipe from favourites
+@app.route('/unlike/<recipe>')
+def unlike(recipe):
+    userID = session['userID']
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    sql = """SELECT RecipeID FROM Recipes WHERE Name = '%s';""" % recipe
+    cursor.execute(sql)
+    recipeID = cursor.fetchall()[0][0]
+    sql = f"""DELETE FROM Favourites WHERE user = '{userID}' AND recipe = '{recipeID}';"""
+    cursor.execute(sql)
+    db.commit()
+    db.close()
+    return redirect(f'/recipe/{recipe}')
 
 
 #   admin page
@@ -396,7 +428,8 @@ def add_step():
     recipe = request.form['recipe']
     step = request.form['step']
     instruction = request.form['instruction']
-    sql = f"""INSERT INTO Instructions (Recipe, Step, Instruction) VALUES ('{recipe}', '{step}', '{instruction}');"""
+    sql = f"""INSERT INTO Instructions (Recipe, Step, Instruction)
+    VALUES ('{recipe}', '{step}', '{instruction}');"""
     cursor.execute(sql)
     db.commit()
     db.close()
