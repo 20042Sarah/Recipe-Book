@@ -2,7 +2,15 @@
 {% block body %}
 <title>{{ recipe }}</title>
 <div class="w3-container">
-    <h1>{{ recipe }}</h1>
+    {% if userID %}
+        {% if fav %}
+            <h1>{{ recipe }} <button class="w3-button w3-circle w3-xlarge w3-white"><i class="fa fa-heart w3-large"></i></button></h1>
+        {% else %}
+            <h1>{{ recipe }} <button class="w3-button w3-circle w3-xlarge w3-white"><i class="fa fa-heart-o w3-large"></i></button></h1>
+        {% endif %}
+    {% else %}
+        <h1>{{ recipe }}</h1>
+    {% endif %}
     <div class="recipe-container">
         <div>
         <h2>Ingredients</h2>
@@ -22,7 +30,7 @@
         </div>
             <p></p>
             <!-- back button -->
-            <a href="/"><button class="w3-btn w3-theme-l4"><i class="fa fa-angle-left"></i></button></a>
+            <a href="/"><button class="w3-btn w3-theme-l4"><i class="fa fa-caret-left"></i></button></a>
         </div>
         <div></div>
         <!-- image of food -->

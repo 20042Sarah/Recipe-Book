@@ -302,12 +302,26 @@ def displayrecipe(name):
         Instructions WHERE Recipe = %s;""" % recipe
         cursor.execute(sql)
         r2 = cursor.fetchall()
-        db.close()
     except IndexError:
         #   if the recipe name is not in the database an error message is given
         error = 'Page not found. Please check the recipe name.'
         return render_template('error.html', error=error)
-    return render_template('recipe.html', recipe=name, ingred=r1, instr=r2)
+    # check if user is signed in
+    if 'userID' in session:
+        userID = session['userID']
+        # check if recipe is a favourite
+        sql = f"""SELECT * FROM Favourites WHERE user = {userID} AND recipe = {recipe}"""
+        cursor.execute(sql)
+        favourites = cursor.fetchall()
+        db.close()
+        if len(favourites) > 0:
+            fav = True
+            return render_template('recipe.html', recipe=name, ingred=r1, instr=r2, userID=userID, fav=fav)
+        else:
+           return render_template('recipe.html', recipe=name, ingred=r1, instr=r2, userID=userID,)
+    else:
+        db.close()
+        return render_template('recipe.html', recipe=name, ingred=r1, instr=r2)
 
 
 #   admin page
