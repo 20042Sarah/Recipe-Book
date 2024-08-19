@@ -1,4 +1,3 @@
-<!-- https://www.w3schools.com/html/tryit.asp?filename=tryhtml_input_file for image upload -->
 {% extends "base.html" %}
 {% block body %}
 <title>Recipe Admin</title>
@@ -8,7 +7,7 @@
         <div class="w3-card-4 w3-theme-l3 w3-padding">
             <h2 class="w3-text white">Create Recipe</h2>
             <!-- form to add a recipe to Recipes table -->
-            <form action="/create_recipe" method="post">
+            <form action="/create_recipe" method="post" enctype=multipart/form-data>
                 <label for="Rname">Name: </label>
                 <input class="w3-input w3-border w3-animate-input" type="text" style="width:60%" name="Rname"><br>
                 <label for="Rmeal">Meal: </label><br>
@@ -16,8 +15,7 @@
                     {% for item in meals %}
                     <option value='{{ item[0] }}'>{{ item[1] }}</option>
                     {% endfor %}
-                </select><br>
-                <p></p>
+                </select><br><br>
                 <label for="Rdiff">Difficulty: </label><br>
                     <input class="w3-radio" type="radio" name="Rdiff" value="1">
                     <label for="1">1</label>
@@ -28,11 +26,11 @@
                     <input class="w3-radio" type="radio" name="Rdiff" value="4">
                     <label for="4">4</label>
                     <input class="w3-radio" type="radio" name="Rdiff" value="5">
-                    <label for="5">5</label><br>
-                <p></p>
+                    <label for="5">5</label><br><br>
+                <label for="file">Select an image: </label>
+                <input type="file" name="file"><br><br>
                 <input type="submit" value="Submit" onclick="msg()">
-            </form>
-            <p></p>
+            </form><br>
         </div>
         <div></div>
         <div class="w3-card-4 w3-theme-l3 w3-padding">

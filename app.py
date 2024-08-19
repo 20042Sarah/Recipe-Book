@@ -1,8 +1,13 @@
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, redirect, session, url_for, flash
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+import os
+
 app = Flask(__name__)
 DB = "RecipeBook.db"
+UPLOAD_FOLDER = 'Image Uploads/static/images/'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 #   functions
 def add_user(table, add_name, add_password):
@@ -374,6 +379,12 @@ def admin():
     return render_template('admin.html', meals=meals, food=food, recipes=recipes)
 
 
+# checks if file is an allowed type
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 # adds recipe to Recipes table
 @app.post('/create_recipe')
 def add_recipe():
@@ -382,11 +393,24 @@ def add_recipe():
     name = request.form['Rname']
     meal = request.form['Rmeal']
     diff = request.form['Rdiff']
+    if 'file' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+    file = request.files['file']
+    if file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(UPLOAD_FOLDER, filename))
+        return redirect(url_for('download_file', name=filename))
     sql = f"""INSERT INTO Recipes (Name, Meal, Difficulty)
     VALUES ('{name}', '{meal}', '{diff}');"""
     cursor.execute(sql)
     db.commit()
     db.close()
+    #filename = secure_filename(file.filename)
+    #file.save(UPLOAD_FOLDER+filename)
     return redirect('/admin')
 
 
