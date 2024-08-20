@@ -401,15 +401,14 @@ def add_recipe():
         flash('No selected file')
         return redirect(request.url)
     if file and allowed_file(file.filename):
-        filename = f'{name}.jpg'
+        filetype = file.filename.rsplit('.', 1)[1].lower()
+        filename = f'{name}.{filetype}'
         file.save(os.path.join(UPLOAD_FOLDER, filename))
     sql = f"""INSERT INTO Recipes (Name, Meal, Difficulty)
     VALUES ('{name}', '{meal}', '{diff}');"""
     cursor.execute(sql)
     db.commit()
     db.close()
-    #filename = secure_filename(file.filename)
-    #file.save(UPLOAD_FOLDER+filename)
     return redirect('/admin')
 
 
