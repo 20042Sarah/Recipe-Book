@@ -98,7 +98,7 @@ def add_user_route():
             sql = """INSERT INTO Users (username, password) VALUES (?,?);"""
             cursor.execute(sql, (username, hashed))
             connection.commit
-            return render_template("/login.html")
+            return redirect(url_for("login"))
         else:
             return redirect(url_for("signup_password_error"))
 

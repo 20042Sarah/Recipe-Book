@@ -7,20 +7,24 @@
     {% endfor %}
     <div>
         <h3>Favourited Recipes: </h3>
-        <div class="grid-recipe2">
-            {% for item in favourites %}
-            <div class="w3-padding"> 
-              <div class="w3-card w3-theme-l4">
-                <img src="/static/images/{{ item[1] }}.jpg" width="100%" height="300" style="object-fit: cover">
-                <div class="w3-container">
-                  <h4 class="title"><a href="/recipe/{{ item[1] }}">{{ item[1] }}</a></h4>
-                  <p>Meal: {{ item[2] }}</p>
-                  <p>Difficulty: {{ item[3] }}</p>
+        {% if favourites %}
+          <div class="grid-recipe2">
+              {% for item in favourites %}
+              <div class="w3-padding"> 
+                <div class="w3-card w3-theme-l4">
+                  <img src="/static/images/{{ item[1] }}.jpg" width="100%" height="300" style="object-fit: cover">
+                  <div class="w3-container">
+                    <h4 class="title"><a href="/recipe/{{ item[1] }}">{{ item[1] }}</a></h4>
+                    <p>Meal: {{ item[2] }}</p>
+                    <p>Difficulty: {{ item[3] }}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            {% endfor %}
-        </div>
+              {% endfor %}
+          </div>
+        {% else %}
+          <p>You currently have no favourited recipes.</p>
+        {% endif %}
     </div>
     <div>
         <a href="/logout"><button class="w3-btn w3-theme-l4">Log Out</button></a>
