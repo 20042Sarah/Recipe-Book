@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 DB = "RecipeBook.db"
-UPLOAD_FOLDER = 'Image Uploads/static/images/'
+UPLOAD_FOLDER = 'static/images/'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 #   functions
@@ -401,9 +401,8 @@ def add_recipe():
         flash('No selected file')
         return redirect(request.url)
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
+        filename = f'{name}.jpg'
         file.save(os.path.join(UPLOAD_FOLDER, filename))
-        return redirect(url_for('download_file', name=filename))
     sql = f"""INSERT INTO Recipes (Name, Meal, Difficulty)
     VALUES ('{name}', '{meal}', '{diff}');"""
     cursor.execute(sql)
