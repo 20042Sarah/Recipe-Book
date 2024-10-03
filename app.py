@@ -62,7 +62,7 @@ def login():
             return redirect(url_for("get_userID", userID=sqlID))
         # if username and password don't match database
         else:
-            error_message = "Username or password incorret. Please try again."
+            error_message = "Username or password incorrect. Please try again."
             return render_template("login.html", error_message=error_message)
     else:
         # user logged in
@@ -71,9 +71,16 @@ def login():
         return render_template("login.html")
 
 
-@app.route("/signup")
-def signup():
-    return render_template("signup.html")
+@app.route("/signup/<error_message>")
+def signup(error_message):
+    if error_message == 'signup_password_error':
+        error_message = "Passwords do not match."
+        return render_template("signup.html", error_message=error_message)
+    elif error_message == 'signup_user_error':
+        error_message = "Username already taken. Please use another name."
+        return render_template("signup.html", error_message=error_message)
+    else:
+        return render_template("signup.html")
 
 
 @app.route("/add_user")
@@ -90,8 +97,7 @@ def add_user_route():
         user = cursor.fetchone()
         # check if username is already taken
         if user and username == user[1]:
-            error_message = "Username already taken. Please use another name."
-            return render_template("/signup.html", error_message=error_message)
+            return redirect("/signup/signup_user_error")
         # check if passwords match
         if password == confirm_password:
             hashed = generate_password_hash(password)
@@ -100,13 +106,7 @@ def add_user_route():
             connection.commit
             return redirect(url_for("login"))
         else:
-            return redirect(url_for("signup_password_error"))
-
-
-@app.route("/signup_password_error")
-def signup_password_error():
-    error_message = "Passwords do not match."
-    return render_template("/signup.html", error_message=error_message)
+            return redirect("/signup/signup_password_error")
 
 
 @app.route("/user/<int:userID>")
