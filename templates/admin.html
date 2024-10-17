@@ -91,7 +91,41 @@
                 <p></p>
                 <input type="submit" value="Submit" onclick="msg()">
             </form>
-            <!-- recipe, step num, instruction -->
+        </div>
+    </div>
+    <br>
+    <div class="w3-card-4 w3-theme-l3 w3-padding">
+        <h2 class="w3-text white">Delete</h2>
+        <div class="recipe-container">
+            <!-- form to delete a recipe from database -->
+            <div>
+                <h3 class="w3-text white">Recipe:</h3>
+                <form action="/delete_recipe" method="post">
+                    <select class="w3-select" style="width:90%" name="recipe">
+                        {% for item in recipes %}
+                        <option value='{{ item[0] }}'>{{ item[1] }}</option>
+                        {% endfor %}
+                    </select><br>
+                    <p></p>
+                    <input type="submit" value="Delete" onclick="msg()"><br>
+                    <p></p>
+                </form>
+            </div>
+            <div></div>
+            <!-- form to delete an ingredient from database -->
+            <div>
+                <h3 class="w3-text white">Ingredient:</h3>
+                <form action="/delete_ingred" method="post">
+                    <select class="w3-select" style="width:90%" name="food">
+                        {% for item in food %}
+                        <option value='{{ item[0] }}'>{{ item[1] }}</option>
+                        {% endfor %}
+                    </select><br>
+                    <p></p>
+                    <input type="submit" value="Delete" onclick="msg()"><br>
+                    <p></p>
+                </form>
+            </div>
         </div>
     </div>
     <!-- home button -->

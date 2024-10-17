@@ -458,6 +458,9 @@ def add_step():
     return redirect('/admin')
 
 
+#   deleting data
+
+
 #   page not found error page
 @app.errorhandler(404)
 def page_not_found(error):
