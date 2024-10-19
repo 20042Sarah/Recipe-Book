@@ -459,7 +459,19 @@ def add_step():
 
 
 #   deleting data
-
+@app.post('/delete_recipe')
+def delete_recipe():
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    recipe = request.form['recipe']
+    table = ['Recipes', 'Favourites', 'Ingredients', 'Instructions']
+    column = ['RecipeID', 'recipe', 'Recipe', 'Recipe']
+    for i in range(len(table)):
+        sql = f"""DELETE FROM {table[i]} WHERE {column[i]} = '{recipe}';"""
+        cursor.execute(sql)
+        db.commit()
+    db.close()
+    return redirect('/admin')
 
 #   page not found error page
 @app.errorhandler(404)
