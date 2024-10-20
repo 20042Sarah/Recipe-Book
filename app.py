@@ -476,7 +476,7 @@ def delete_recipe():
 
 #   deleting ingredient
 @app.post('/delete_ingred')
-def delete_recipe():
+def delete_ingred():
     db = sqlite3.connect(DB)
     cursor = db.cursor()
     ingredient = request.form['ingredient']
