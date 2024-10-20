@@ -459,6 +459,7 @@ def add_step():
 
 
 #   deleting data
+#   deleting recipe
 @app.post('/delete_recipe')
 def delete_recipe():
     db = sqlite3.connect(DB)
@@ -472,6 +473,22 @@ def delete_recipe():
         db.commit()
     db.close()
     return redirect('/admin')
+
+#   deleting ingredient
+@app.post('/delete_ingred')
+def delete_recipe():
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    ingredient = request.form['ingredient']
+    table = ['Food', 'Ingredients']
+    column = ['FoodID', 'Food']
+    for i in range(len(table)):
+        sql = f"""DELETE FROM {table[i]} WHERE {column[i]} = '{ingredient}';"""
+        cursor.execute(sql)
+        db.commit()
+    db.close()
+    return redirect('/admin')
+
 
 #   page not found error page
 @app.errorhandler(404)
