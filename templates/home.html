@@ -11,7 +11,6 @@
         <a href="/loginpage"><button class="w3-btn w3-theme-l4">Login</button></a>
       {% endif %}
     </div>
-    <!-- Displays all recipes in a grid -->
     <div class="home-container">
         <div>
             <!-- search bar and filtering -->
@@ -58,7 +57,7 @@
               </div>
             </div>
         </div>
-        <!-- recipes displayed in a grid-->
+        <!-- Displays all recipes in a grid -->
         <div class="grid-recipe" id="RecipeDiv">
           {% for item in results %}
           <div class="w3-padding"> 
@@ -69,6 +68,7 @@
                 <!-- Credit to Charlotte for help with above line-->
                 <p>Meal: {{ item[2] }}</p>
                 <p>Difficulty: {{ item[3] }}</p>
+                <p>{{ dietary[item[0]] }}</p>
               </div>
             </div>
           </div>

@@ -150,6 +150,25 @@ def allrecipes():
         ON Recipes.Meal = Meals.MealID ORDER BY Recipes.Name;"""
     cursor.execute(sql)
     results = cursor.fetchall()
+    dietary = []
+    cursor = db.cursor()
+    sql = """SELECT Recipes.RecipeID, Recipes.Name,
+        Meals.Name, Recipes.Difficulty FROM Recipes LEFT JOIN Meals
+        ON Recipes.Meal = Meals.MealID ORDER BY Recipes.RecipeID;"""
+    results2 = cursor.fetchall()
+    for i in results:
+        cursor = db.cursor()
+        sql = f"""SELECT Dietary.Symbol FROM RecipeDietary LEFT JOIN
+        Recipes ON RecipeDietary.Recipe = Recipes.RecipeID LEFT JOIN
+        Dietary ON RecipeDietary.Dietary = Dietary.DietaryID
+        WHERE RecipeID = {i[0]};"""
+        cursor.execute(sql)
+        symbols = cursor.fetchall()
+        try:
+            symbol = symbols[0][0]
+        except IndexError:
+            symbol = ''
+        dietary.append(symbol)
     sql = """SELECT Name from Meals;"""
     cursor.execute(sql)
     meals = cursor.fetchall()
@@ -161,9 +180,9 @@ def allrecipes():
     # check if user is signed in
     if 'userID' in session:
         userID = session['userID']
-        return render_template('home.html', results=results, meals=meals, food=food, userID=userID)
+        return render_template('home.html', results=results, meals=meals, food=food, dietary=dietary, userID=userID)
     else:
-        return render_template('home.html', results=results, meals=meals, food=food)
+        return render_template('home.html', results=results, meals=meals, food=food, dietary=dietary)
 
 
 #   filters by meal
